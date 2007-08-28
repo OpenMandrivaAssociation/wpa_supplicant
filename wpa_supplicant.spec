@@ -80,7 +80,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root)
-%doc COPYING ChangeLog README eap_testing.txt todo.txt
+%doc ChangeLog README eap_testing.txt todo.txt
 %attr(0600,root,daemon) %config(noreplace) %{_sysconfdir}/wpa_supplicant.conf
 %{_sbindir}/wpa_cli
 %{_sbindir}/wpa_passphrase
