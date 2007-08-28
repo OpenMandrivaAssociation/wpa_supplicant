@@ -1,11 +1,11 @@
 Summary:	Linux WPA Supplicant (IEEE 802.1X, WPA, WPA2, RSN, IEEE 802.11i)
 Name:		wpa_supplicant
-Version:	0.5.8
+Version:	0.6.0
 Release:	%mkrel 1
 License:	GPL
 Group:		Communications
 URL:		http://hostap.epitest.fi/wpa_supplicant/
-Source0:	http://hostap.epitest.fi/releases/wpa_supplicant-%{version}.tar.gz
+Source0:	http://hostap.epitest.fi/releases/wpa_supplicant-%{version}.tar.bz2
 Source1:	wpa-config
 Buildroot:	%{_tmppath}/%{name}-buildroot
 BuildRequires:	libopenssl-devel
@@ -51,17 +51,21 @@ wpa_supplicant is a WPA Supplicant for Linux, BSD and Windows with
 support for WPA and WPA2 (IEEE 802.11i / RSN).
 
 %prep
-%setup -q
+%setup -q -n %{name}-%{version}
+pushd wpa_supplicant
 # (blino) comment all "network = { }" blocks
 perl -pi -e '$_ = "# $_" if /^\s*network\s*=\s*{/ .. /^\s*}/' wpa_supplicant.conf
 cp %{SOURCE1} .config
+popd
 
 %build
+pushd wpa_supplicant
 make
 export QTDIR=%{_prefix}/lib/qt3
 pushd wpa_gui
  qmake
  make
+popd
 popd
 
 %install
@@ -69,18 +73,20 @@ rm -rf $RPM_BUILD_ROOT
 mkdir -p $RPM_BUILD_ROOT%{_sbindir}
 mkdir -p $RPM_BUILD_ROOT%{_sysconfdir}
 
+pushd wpa_supplicant
 cp wpa_supplicant $RPM_BUILD_ROOT/%{_sbindir}
 cp wpa_cli $RPM_BUILD_ROOT/%{_sbindir}
 cp wpa_passphrase $RPM_BUILD_ROOT/%{_sbindir}
 cp wpa_supplicant.conf $RPM_BUILD_ROOT%{_sysconfdir}
 cp wpa_gui/wpa_gui $RPM_BUILD_ROOT%{_sbindir}
+popd
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(-,root,root)
-%doc ChangeLog README eap_testing.txt todo.txt
+%doc wpa_supplicant/ChangeLog wpa_supplicant/README wpa_supplicant/eap_testing.txt wpa_supplicant/todo.txt
 %attr(0600,root,daemon) %config(noreplace) %{_sysconfdir}/wpa_supplicant.conf
 %{_sbindir}/wpa_cli
 %{_sbindir}/wpa_passphrase
