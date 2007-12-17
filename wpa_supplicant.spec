@@ -69,20 +69,20 @@ popd
 popd
 
 %install
-rm -rf $RPM_BUILD_ROOT
-mkdir -p $RPM_BUILD_ROOT%{_sbindir}
-mkdir -p $RPM_BUILD_ROOT%{_sysconfdir}
+rm -rf %{buildroot}
+mkdir -p %{buildroot}%{_sbindir}
+mkdir -p %{buildroot}%{_sysconfdir}
 
 pushd wpa_supplicant
-cp wpa_supplicant $RPM_BUILD_ROOT/%{_sbindir}
-cp wpa_cli $RPM_BUILD_ROOT/%{_sbindir}
-cp wpa_passphrase $RPM_BUILD_ROOT/%{_sbindir}
-cp wpa_supplicant.conf $RPM_BUILD_ROOT%{_sysconfdir}
-cp wpa_gui/wpa_gui $RPM_BUILD_ROOT%{_sbindir}
+cp wpa_supplicant %{buildroot}/%{_sbindir}
+cp wpa_cli %{buildroot}/%{_sbindir}
+cp wpa_passphrase %{buildroot}/%{_sbindir}
+cp wpa_supplicant.conf %{buildroot}%{_sysconfdir}
+cp wpa_gui/wpa_gui %{buildroot}%{_sbindir}
 popd
 
 %clean
-rm -rf $RPM_BUILD_ROOT
+rm -rf %{buildroot}
 
 %files
 %defattr(-,root,root)
@@ -94,4 +94,3 @@ rm -rf $RPM_BUILD_ROOT
 
 %files -n wpa_gui
 %{_sbindir}/wpa_gui
-
