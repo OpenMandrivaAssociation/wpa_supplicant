@@ -1,11 +1,11 @@
 Summary:	Linux WPA Supplicant (IEEE 802.1X, WPA, WPA2, RSN, IEEE 802.11i)
 Name:		wpa_supplicant
-Version:	0.6.0
+Version:	0.6.1
 Release:	%mkrel 1
 License:	GPL
 Group:		Communications
 URL:		http://hostap.epitest.fi/wpa_supplicant/
-Source0:	http://hostap.epitest.fi/releases/wpa_supplicant-%{version}.tar.bz2
+Source0:	http://hostap.epitest.fi/releases/wpa_supplicant-%{version}.tar.gz
 Source1:	wpa-config
 Buildroot:	%{_tmppath}/%{name}-buildroot
 BuildRequires:	libopenssl-devel
