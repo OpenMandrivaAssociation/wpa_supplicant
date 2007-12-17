@@ -7,7 +7,6 @@ Group:		Communications
 URL:		http://hostap.epitest.fi/wpa_supplicant/
 Source0:	http://hostap.epitest.fi/releases/wpa_supplicant-%{version}.tar.gz
 Source1:	wpa-config
-Buildroot:	%{_tmppath}/%{name}-buildroot
 BuildRequires:	libopenssl-devel
 BuildRequires:	pcsc-lite-devel
 BuildRequires:	doxygen
