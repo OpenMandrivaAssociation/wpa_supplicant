@@ -1,7 +1,7 @@
 Summary:	Linux WPA Supplicant (IEEE 802.1X, WPA, WPA2, RSN, IEEE 802.11i)
 Name:		wpa_supplicant
 Version:	0.6.1
-Release:	%mkrel 1
+Release:	%mkrel 2
 License:	GPL
 Group:		Communications
 URL:		http://hostap.epitest.fi/wpa_supplicant/
@@ -79,6 +79,9 @@ cp wpa_cli %{buildroot}/%{_sbindir}
 cp wpa_passphrase %{buildroot}/%{_sbindir}
 cp wpa_supplicant.conf %{buildroot}%{_sysconfdir}
 cp wpa_gui/wpa_gui %{buildroot}%{_sbindir}
+mkdir -p %{buildroot}%{_mandir}/man{5,8}
+cp doc/docbook/*.8 %{buildroot}%{_mandir}/man8
+cp doc/docbook/*.5 %{buildroot}%{_mandir}/man5
 popd
 
 %clean
@@ -87,10 +90,13 @@ rm -rf %{buildroot}
 %files
 %defattr(-,root,root)
 %doc wpa_supplicant/ChangeLog wpa_supplicant/README wpa_supplicant/eap_testing.txt wpa_supplicant/todo.txt
+%doc wpa_supplicant/examples/*.conf
 %attr(0600,root,daemon) %config(noreplace) %{_sysconfdir}/wpa_supplicant.conf
 %{_sbindir}/wpa_cli
 %{_sbindir}/wpa_passphrase
 %{_sbindir}/wpa_supplicant
+%{_mandir}/man8/*
+%{_mandir}/man5/*
 
 %files -n wpa_gui
 %{_sbindir}/wpa_gui
