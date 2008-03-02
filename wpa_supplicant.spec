@@ -7,6 +7,7 @@ Group:		Communications
 URL:		http://hostap.epitest.fi/wpa_supplicant/
 Source0:	http://hostap.epitest.fi/releases/wpa_supplicant-%{version}.tar.gz
 Source1:	wpa-config
+Patch0:		wpa_supplicant-0.6.3-WpaMsg.patch
 Buildroot:	%{_tmppath}/%{name}-buildroot
 BuildRequires:	libopenssl-devel
 BuildRequires:	pcsc-lite-devel
@@ -52,6 +53,7 @@ support for WPA and WPA2 (IEEE 802.11i / RSN).
 
 %prep
 %setup -q -n %{name}-%{version}
+%patch0 -p1 -b .WpaMsg
 pushd wpa_supplicant
 # (blino) comment all "network = { }" blocks
 perl -pi -e '$_ = "# $_" if /^\s*network\s*=\s*{/ .. /^\s*}/' wpa_supplicant.conf
