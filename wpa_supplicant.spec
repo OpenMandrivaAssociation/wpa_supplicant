@@ -65,11 +65,11 @@ popd
 %build
 export CFLAGS="%{optflags}"
 pushd wpa_supplicant
-make
+%make
 export QTDIR=%{_prefix}/lib/qt3
 pushd wpa_gui
  qmake
- make
+ %make
 popd
 popd
 
