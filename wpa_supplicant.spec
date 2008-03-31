@@ -63,6 +63,7 @@ cp %{SOURCE1} .config
 popd
 
 %build
+export CFLAGS="%{optflags}"
 pushd wpa_supplicant
 make
 export QTDIR=%{_prefix}/lib/qt3
