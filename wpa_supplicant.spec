@@ -1,7 +1,7 @@
 Summary:	Linux WPA Supplicant (IEEE 802.1X, WPA, WPA2, RSN, IEEE 802.11i)
 Name:		wpa_supplicant
 Version:	0.6.3
-Release:	%mkrel 2
+Release:	%mkrel 3
 License:	GPL
 Group:		Communications
 URL:		http://hostap.epitest.fi/wpa_supplicant/
@@ -9,6 +9,9 @@ Source0:	http://hostap.epitest.fi/releases/wpa_supplicant-%{version}.tar.gz
 Source1:	wpa-config
 Patch0:		wpa_supplicant-0.6.3-WpaMsg.patch
 Patch1:		wpa_supplicant-0.6.3-comment.patch
+# should be safe to just bump MAX_WEP_KEY_LEN to 32
+# http://lists.shmoo.com/pipermail/hostap/2005-October/011787.html
+Patch2:		wpa_supplicant-0.6.3-WEP232.patch
 Buildroot:	%{_tmppath}/%{name}-buildroot
 BuildRequires:	libopenssl-devel
 BuildRequires:	pcsc-lite-devel
@@ -56,6 +59,7 @@ support for WPA and WPA2 (IEEE 802.11i / RSN).
 %setup -q -n %{name}-%{version}
 %patch0 -p1 -b .WpaMsg
 %patch1 -p1 -b .comment
+%patch2 -p1 -b .WEP232
 pushd wpa_supplicant
 # (blino) comment all "network = { }" blocks
 perl -pi -e '$_ = "# $_" if /^\s*network\s*=\s*{/ .. /^\s*}/' wpa_supplicant.conf
