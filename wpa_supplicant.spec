@@ -1,7 +1,7 @@
 Summary:	Linux WPA Supplicant (IEEE 802.1X, WPA, WPA2, RSN, IEEE 802.11i)
 Name:		wpa_supplicant
 Version:	0.6.3
-Release:	%mkrel 4
+Release:	%mkrel 5
 License:	GPL
 Group:		Communications
 URL:		http://hostap.epitest.fi/wpa_supplicant/
@@ -50,12 +50,14 @@ drivers and interoperability testing.
 %package -n wpa_gui
 Group: System/Configuration/Networking
 Summary: Graphical tool for wpa_supplicant
+
 %description -n wpa_gui
 wpa_gui is a QT frontend for wpa_supplicant.
 wpa_supplicant is a WPA Supplicant for Linux, BSD and Windows with
 support for WPA and WPA2 (IEEE 802.11i / RSN).
 
 %prep
+
 %setup -q -n %{name}-%{version}
 %patch0 -p1 -b .WpaMsg
 %patch1 -p1 -b .comment
