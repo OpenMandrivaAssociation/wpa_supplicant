@@ -16,7 +16,7 @@ Buildroot:	%{_tmppath}/%{name}-buildroot
 BuildRequires:	libopenssl-devel
 BuildRequires:	pcsc-lite-devel
 BuildRequires:	doxygen
-BuildRequires:	qt3-devel
+BuildRequires:	qt4-devel
 BuildRequires:	madwifi-source
 Requires(pre):	rpm-helper
 Requires(post):	rpm-helper
@@ -72,7 +72,6 @@ popd
 export CFLAGS="%{optflags}"
 pushd wpa_supplicant
 %make
-export QTDIR=%{_prefix}/lib/qt3
 pushd wpa_gui
  qmake
  %make
