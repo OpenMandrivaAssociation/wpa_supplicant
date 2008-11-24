@@ -11,6 +11,7 @@ Source1:	wpa-config
 # http://lists.shmoo.com/pipermail/hostap/2005-October/011787.html
 Patch2:		wpa_supplicant-0.6.3-WEP232.patch
 Buildroot:	%{_tmppath}/%{name}-buildroot
+BuildRequires:	dbus-devel
 BuildRequires:	libopenssl-devel
 BuildRequires:	pcsc-lite-devel
 BuildRequires:	doxygen
