@@ -78,7 +78,8 @@ popd
 %install
 rm -rf %{buildroot}
 mkdir -p %{buildroot}%{_sbindir}
-mkdir -p %{buildroot}%{_sysconfdir}
+mkdir -p %{buildroot}%{_sysconfdir}/dbus-1/system.d/
+mkdir -p %{buildroot}%{_datadir}/dbus-1/system-services/
 
 pushd wpa_supplicant
 cp wpa_supplicant %{buildroot}/%{_sbindir}
@@ -86,6 +87,8 @@ cp wpa_cli %{buildroot}/%{_sbindir}
 cp wpa_passphrase %{buildroot}/%{_sbindir}
 cp wpa_supplicant.conf %{buildroot}%{_sysconfdir}
 cp wpa_gui/wpa_gui %{buildroot}%{_sbindir}
+install -m 0644 dbus-wpa_supplicant.conf %{buildroot}%{_sysconfdir}/dbus-1/system.d/wpa_supplicant.conf
+install -m 0644 dbus-wpa_supplicant.service %{buildroot}%{_datadir}/dbus-1/system-services/fi.epitest.hostap.WPASupplicant.service
 mkdir -p %{buildroot}%{_mandir}/man{5,8}
 cp doc/docbook/*.8 %{buildroot}%{_mandir}/man8
 cp doc/docbook/*.5 %{buildroot}%{_mandir}/man5
@@ -102,6 +105,8 @@ rm -rf %{buildroot}
 %{_sbindir}/wpa_cli
 %{_sbindir}/wpa_passphrase
 %{_sbindir}/wpa_supplicant
+%{_sysconfdir}/dbus-1/system.d/wpa_supplicant.conf
+%{_datadir}/dbus-1/system-services/fi.epitest.hostap.WPASupplicant.service
 %{_mandir}/man8/*
 %{_mandir}/man5/*
 
