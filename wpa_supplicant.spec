@@ -1,6 +1,6 @@
 Summary:	Linux WPA Supplicant (IEEE 802.1X, WPA, WPA2, RSN, IEEE 802.11i)
 Name:		wpa_supplicant
-Version:	0.6.8
+Version:	0.6.9
 Release:	%mkrel 1
 License:	GPL
 Group:		Communications
