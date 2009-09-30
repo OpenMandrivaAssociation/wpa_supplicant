@@ -18,6 +18,7 @@ BuildRequires:	pcsc-lite-devel
 BuildRequires:	doxygen
 BuildRequires:	qt4-devel
 BuildRequires:	madwifi-source
+BuildRequires:	libnl-devel
 Requires(pre):	rpm-helper
 Requires(post):	rpm-helper
 # http://ndiswrapper.sourceforge.net/wiki/index.php/WPA
