@@ -1,7 +1,7 @@
 Summary:	Linux WPA Supplicant (IEEE 802.1X, WPA, WPA2, RSN, IEEE 802.11i)
 Name:		wpa_supplicant
 Version:	0.6.10
-Release:	%mkrel 3
+Release:	%mkrel 4
 License:	GPL
 Group:		Communications
 URL:		http://hostap.epitest.fi/wpa_supplicant/
@@ -71,6 +71,7 @@ popd
 export CFLAGS="%{optflags}"
 pushd wpa_supplicant
 %make
+%make eapol_test 
 pushd wpa_gui
  qmake
  %make
@@ -89,8 +90,11 @@ cp wpa_cli %{buildroot}/%{_sbindir}
 cp wpa_passphrase %{buildroot}/%{_sbindir}
 cp wpa_supplicant.conf %{buildroot}%{_sysconfdir}
 cp wpa_gui/wpa_gui %{buildroot}%{_sbindir}
-install -m 0644 dbus-wpa_supplicant.conf %{buildroot}%{_sysconfdir}/dbus-1/system.d/wpa_supplicant.conf
-install -m 0644 dbus-wpa_supplicant.service %{buildroot}%{_datadir}/dbus-1/system-services/fi.epitest.hostap.WPASupplicant.service
+cp eapol_test %{buildroot}%{_sbindir}
+install -m 0644 dbus-wpa_supplicant.conf \
+    %{buildroot}%{_sysconfdir}/dbus-1/system.d/wpa_supplicant.conf
+install -m 0644 dbus-wpa_supplicant.service \
+    %{buildroot}%{_datadir}/dbus-1/system-services/fi.epitest.hostap.WPASupplicant.service
 mkdir -p %{buildroot}%{_mandir}/man{5,8}
 cp doc/docbook/*.8 %{buildroot}%{_mandir}/man8
 cp doc/docbook/*.5 %{buildroot}%{_mandir}/man5
@@ -107,6 +111,7 @@ rm -rf %{buildroot}
 %{_sbindir}/wpa_cli
 %{_sbindir}/wpa_passphrase
 %{_sbindir}/wpa_supplicant
+%{_sbindir}/eapol_test
 %{_sysconfdir}/dbus-1/system.d/wpa_supplicant.conf
 %{_datadir}/dbus-1/system-services/fi.epitest.hostap.WPASupplicant.service
 %{_mandir}/man8/*
