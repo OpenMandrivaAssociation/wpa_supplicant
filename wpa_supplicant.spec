@@ -1,7 +1,7 @@
 Summary:	Linux WPA Supplicant (IEEE 802.1X, WPA, WPA2, RSN, IEEE 802.11i)
 Name:		wpa_supplicant
 Version:	0.6.10
-Release:	%mkrel 4
+Release:	%mkrel 5
 License:	GPL
 Group:		Communications
 URL:		http://hostap.epitest.fi/wpa_supplicant/
@@ -68,12 +68,12 @@ cp %{SOURCE1} .config
 popd
 
 %build
-export CFLAGS="%{optflags}"
+%setup_compile_flags
 pushd wpa_supplicant
 %make
 %make eapol_test 
 pushd wpa_gui
- qmake
+ %qmake_qt4
  %make
 popd
 popd
