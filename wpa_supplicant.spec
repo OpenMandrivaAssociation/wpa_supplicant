@@ -1,13 +1,15 @@
 Summary:	Linux WPA Supplicant (IEEE 802.1X, WPA, WPA2, RSN, IEEE 802.11i)
 Name:		wpa_supplicant
-Version:	0.6.10
-Release:	%mkrel 5
+Version:	0.7.3
+Release:	%mkrel 1
 License:	GPL
 Group:		Communications
 URL:		http://hostap.epitest.fi/wpa_supplicant/
 Source0:	http://hostap.epitest.fi/releases/wpa_supplicant-%{version}.tar.gz
 Source1:	wpa-config
-Patch0:		wpa_supplicant-0.6.6-servconf.patch
+Patch0:		wpa_supplicant-0.7.3-servconf.patch
+# remove until enabled in wpa_supplicant build
+Patch1:		wpa_supplicant-0.7.3-disable_w1_dbus-conf.patch
 # should be safe to just bump MAX_WEP_KEY_LEN to 32
 # http://lists.shmoo.com/pipermail/hostap/2005-October/011787.html
 Patch2:		wpa_supplicant-0.6.3-WEP232.patch
@@ -59,7 +61,8 @@ support for WPA and WPA2 (IEEE 802.11i / RSN).
 %prep
 
 %setup -q -n %{name}-%{version}
-%patch0 -p1 -b .servconf
+%patch0 -p0 -b .servconf
+%patch1 -p0 -b .w1
 %patch2 -p1 -b .WEP232
 pushd wpa_supplicant
 # (blino) comment all "network = { }" blocks
@@ -91,10 +94,13 @@ cp wpa_passphrase %{buildroot}/%{_sbindir}
 cp wpa_supplicant.conf %{buildroot}%{_sysconfdir}
 cp wpa_gui/wpa_gui %{buildroot}%{_sbindir}
 cp eapol_test %{buildroot}%{_sbindir}
-install -m 0644 dbus-wpa_supplicant.conf \
+install -m 0644 dbus/dbus-wpa_supplicant.conf \
     %{buildroot}%{_sysconfdir}/dbus-1/system.d/wpa_supplicant.conf
-install -m 0644 dbus-wpa_supplicant.service \
-    %{buildroot}%{_datadir}/dbus-1/system-services/fi.epitest.hostap.WPASupplicant.service
+install -m 0644 dbus/fi.epitest.hostap.WPASupplicant.service \
+    %{buildroot}%{_datadir}/dbus-1/system-services
+# Uncomment after it is enabled
+# install -m 0644 dbus/fi.w1.wpa_supplicant1.service \
+#     %{buildroot}%{_datadir}/dbus-1/system-services
 mkdir -p %{buildroot}%{_mandir}/man{5,8}
 cp doc/docbook/*.8 %{buildroot}%{_mandir}/man8
 cp doc/docbook/*.5 %{buildroot}%{_mandir}/man5
@@ -114,6 +120,8 @@ rm -rf %{buildroot}
 %{_sbindir}/eapol_test
 %{_sysconfdir}/dbus-1/system.d/wpa_supplicant.conf
 %{_datadir}/dbus-1/system-services/fi.epitest.hostap.WPASupplicant.service
+# Uncomment after it is enabled
+#%{_datadir}/dbus-1/system-services/fi.w1.wpa_supplicant1.service
 %{_mandir}/man8/*
 %{_mandir}/man5/*
 
