@@ -112,6 +112,7 @@ rm -rf %{buildroot}
 %files
 %defattr(-,root,root)
 %doc wpa_supplicant/ChangeLog wpa_supplicant/README wpa_supplicant/eap_testing.txt wpa_supplicant/todo.txt
+%doc wpa_supplicant/README-WPS
 %doc wpa_supplicant/examples/*.conf
 %attr(0600,root,daemon) %config(noreplace) %{_sysconfdir}/wpa_supplicant.conf
 %{_sbindir}/wpa_cli
