@@ -1,7 +1,7 @@
 Summary:	Linux WPA Supplicant (IEEE 802.1X, WPA, WPA2, RSN, IEEE 802.11i)
 Name:		wpa_supplicant
 Version:	0.7.3
-Release:	%mkrel 1.3
+Release:	%mkrel 1.4
 License:	GPL
 Group:		Communications
 URL:		http://hostap.epitest.fi/wpa_supplicant/
@@ -69,6 +69,8 @@ popd
 
 %build
 %setup_compile_flags
+# Fix bug #63030: dereferencing type-punned pointer will break strict-aliasing rules [-Werror=strict-aliasing]
+export CFLAGS+=" -fno-strict-aliasing" CXXFLAGS+=" -fno-strict-aliasing" FFLAGS+=" -fno-strict-aliasing"
 pushd wpa_supplicant
 %make
 %make eapol_test 
