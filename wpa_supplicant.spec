@@ -13,6 +13,7 @@ Patch0:		wpa_supplicant-0.7.3-servconf.patch
 Patch2:		wpa_supplicant-0.6.3-WEP232.patch
 Patch3:		wpa_supplicant-fedora-bss-changed-prop-notify.patch
 Patch4:		wpa_supplicant-fedora-dbus-null-error.patch
+Patch5:		wpa_supplicant-0.7.3-mga-dbus-service-file-args.patch
 Buildroot:	%{_tmppath}/%{name}-buildroot
 BuildRequires:	dbus-devel
 BuildRequires:	libopenssl-devel
@@ -65,6 +66,7 @@ support for WPA and WPA2 (IEEE 802.11i / RSN).
 %patch2 -p1 -b .WEP232~
 %patch3 -p1 -b .bss-changed-prop-notify~
 %patch4 -p1 -b .dbus-null~
+%patch5 -p1 -b .service-file-args~
 pushd wpa_supplicant
 # (blino) comment all "network = { }" blocks
 perl -pi -e '$_ = "# $_" if /^\s*network\s*=\s*{/ .. /^\s*}/' wpa_supplicant.conf
