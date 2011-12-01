@@ -23,6 +23,7 @@ BuildRequires:	doxygen
 BuildRequires:	qt4-devel
 BuildRequires:	pkgconfig(libnl-1)
 BuildRequires:	madwifi-source
+BuildRequires:	readline-devel
 Requires(pre):	rpm-helper
 Requires(post):	rpm-helper
 # http://ndiswrapper.sourceforge.net/wiki/index.php/WPA
