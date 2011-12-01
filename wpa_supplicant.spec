@@ -1,7 +1,7 @@
 Summary:	Linux WPA Supplicant (IEEE 802.1X, WPA, WPA2, RSN, IEEE 802.11i)
 Name:		wpa_supplicant
 Version:	0.7.3
-Release:	%mkrel 1.4
+Release:	2
 License:	GPL
 Group:		Communications
 URL:		http://hostap.epitest.fi/wpa_supplicant/
@@ -16,7 +16,6 @@ Patch4:		wpa_supplicant-fedora-dbus-null-error.patch
 Patch5:		wpa_supplicant-0.7.3-mga-dbus-service-file-args.patch
 Patch6:		wpa_supplicant-0.7.3-fix-enum-wpa_event_type-type.patch
 Patch7:		wpa_supplicant-0.7.3-copy-wpa_scan_results_free-for-wpa_priv.patch
-Buildroot:	%{_tmppath}/%{name}-buildroot
 BuildRequires:	dbus-devel
 BuildRequires:	pkgconfig(gnutls) pkgconfig(gnutls-extra)
 BuildRequires:	pcsc-lite-devel
@@ -93,7 +92,6 @@ popd
 popd
 
 %install
-rm -rf %{buildroot}
 mkdir -p %{buildroot}%{_sbindir}
 mkdir -p %{buildroot}%{_sysconfdir}/dbus-1/system.d/
 mkdir -p %{buildroot}%{_datadir}/dbus-1/system-services/
@@ -116,11 +114,7 @@ cp doc/docbook/*.8 %{buildroot}%{_mandir}/man8
 cp doc/docbook/*.5 %{buildroot}%{_mandir}/man5
 popd
 
-%clean
-rm -rf %{buildroot}
-
 %files
-%defattr(-,root,root)
 %doc wpa_supplicant/ChangeLog wpa_supplicant/README wpa_supplicant/eap_testing.txt wpa_supplicant/todo.txt
 %doc wpa_supplicant/README-WPS
 %doc wpa_supplicant/examples/*.conf
