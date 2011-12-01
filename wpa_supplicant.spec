@@ -27,6 +27,7 @@ Patch8:		wpa_supplicant-quiet-scan-results-message.patch
 Patch9:		wpa_supplicant-squelch-driver-disconnect-spam.patch
 # works around busted drivers by increasing association timeout
 Patch10:	wpa_supplicant-assoc-timeout.patch
+Requires(post,postun,preun): systemd-units
 BuildRequires:	pkgconfig(dbus-1)
 BuildRequires:	pkgconfig(gnutls) pkgconfig(gnutls-extra)
 BuildRequires:	pkgconfig(libpcsclite)
