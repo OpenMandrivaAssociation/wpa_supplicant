@@ -8,6 +8,9 @@ License:	GPLv2
 Group:		Communications
 URL:		http://hostap.epitest.fi/wpa_supplicant/
 Source0:	http://hostap.epitest.fi/releases/wpa_supplicant-%{version}.tar.gz
+Source3:	%{name}.service
+Source4:	%{name}.sysconfig
+Source6:	%{name}.logrotate
 Patch0:		wpa_supplicant-0.7.3-servconf.patch
 Patch1:		wpa_supplicant-0.7.3-mdv-defconfig.patch
 # should be safe to just bump MAX_WEP_KEY_LEN to 32
@@ -106,6 +109,10 @@ mkdir -p %{buildroot}%{_sbindir}
 mkdir -p %{buildroot}%{_sysconfdir}/dbus-1/system.d/
 mkdir -p %{buildroot}%{_datadir}/dbus-1/system-services/
 
+install -m755 %{SOURCE3} -D %{buildroot}%{_systemunitdir}/%{name}.service
+install -m644 %{SOURCE4} -D %{buildroot}%{_sysconfdir}/sysconfig/%{name}
+install -m644 %{SOURCE6} -D %{buildroot}%{_sysconfdir}/logrotate.d/%{name}
+
 pushd wpa_supplicant
 cp wpa_supplicant %{buildroot}%{_sbindir}
 cp wpa_cli %{buildroot}%{_sbindir}
@@ -124,11 +131,34 @@ cp doc/docbook/*.8 %{buildroot}%{_mandir}/man8
 cp doc/docbook/*.5 %{buildroot}%{_mandir}/man5
 popd
 
+%post
+if [ $1 -eq 1 ] ; then 
+    # Initial installation 
+    /bin/systemctl daemon-reload >/dev/null 2>&1 || :
+fi
+
+%preun
+if [ $1 -eq 0 ] ; then
+    # Package removal, not upgrade
+    /bin/systemctl --no-reload disable wpa_supplicant.service > /dev/null 2>&1 || :
+    /bin/systemctl stop wpa_supplicant.service > /dev/null 2>&1 || :
+fi
+
+%postun
+/bin/systemctl daemon-reload >/dev/null 2>&1 || :
+if [ $1 -ge 1 ] ; then
+    # Package upgrade, not uninstall
+    /bin/systemctl try-restart wpa_supplicant.service >/dev/null 2>&1 || :
+fi
+
 %files
 %doc wpa_supplicant/ChangeLog wpa_supplicant/README wpa_supplicant/eap_testing.txt wpa_supplicant/todo.txt
 %doc wpa_supplicant/README-WPS
 %doc wpa_supplicant/examples/*.conf
 %attr(0600,root,daemon) %config(noreplace) %{_sysconfdir}/wpa_supplicant.conf
+%config(noreplace) %{_sysconfdir}/sysconfig/%{name}
+%config(noreplace) %{_sysconfdir}/logrotate.d/%{name}
+%{_systemunitdir}/%{name}.service
 %{_sbindir}/wpa_cli
 %{_sbindir}/wpa_passphrase
 %{_sbindir}/wpa_supplicant
