@@ -18,6 +18,8 @@ Patch4:		wpa_supplicant-fedora-dbus-null-error.patch
 Patch5:		wpa_supplicant-0.7.3-mga-dbus-service-file-args.patch
 Patch6:		wpa_supplicant-0.7.3-fix-enum-wpa_event_type-type.patch
 Patch7:		wpa_supplicant-0.7.3-copy-wpa_scan_results_free-for-wpa_priv.patch
+# quiet an annoying and frequent syslog message
+Patch8:		wpa_supplicant-quiet-scan-results-message.patch
 BuildRequires:	pkgconfig(dbus-1)
 BuildRequires:	pkgconfig(gnutls) pkgconfig(gnutls-extra)
 BuildRequires:	pkgconfig(libpcsclite)
@@ -72,6 +74,7 @@ support for WPA and WPA2 (IEEE 802.11i / RSN).
 %patch5 -p1 -b .service-file-args~
 %patch6 -p1 -b .enum_type~
 %patch7 -p1 -b .wpa_priv_func~
+%patch8 -p1 -b .quiet-scan-results-msg~
 pushd wpa_supplicant
 # (blino) comment all "network = { }" blocks
 perl -pi -e '$_ = "# $_" if /^\s*network\s*=\s*{/ .. /^\s*}/' wpa_supplicant.conf
