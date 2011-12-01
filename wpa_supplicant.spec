@@ -95,7 +95,7 @@ popd
 %build
 %setup_compile_flags
 # Fix bug #63030: dereferencing type-punned pointer will break strict-aliasing rules [-Werror=strict-aliasing]
-export CFLAGS+=" -fno-strict-aliasing" CXXFLAGS+=" -fno-strict-aliasing" FFLAGS+=" -fno-strict-aliasing"
+export CFLAGS+=" -fno-strict-aliasing -Wno-error=deprecated-declarations" CXXFLAGS+=" -fno-strict-aliasing" FFLAGS+=" -fno-strict-aliasing"
 pushd wpa_supplicant
 %make
 %make eapol_test 
