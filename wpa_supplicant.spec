@@ -27,6 +27,7 @@ Patch8:		wpa_supplicant-quiet-scan-results-message.patch
 Patch9:		wpa_supplicant-squelch-driver-disconnect-spam.patch
 # works around busted drivers by increasing association timeout
 Patch10:	wpa_supplicant-assoc-timeout.patch
+Patch11:	wpa_supplicant-0.7.3-fix-wpa_priv-eloop_signal_handler-casting.patch
 Requires(post,postun,preun): systemd-units
 BuildRequires:	pkgconfig(dbus-1)
 BuildRequires:	pkgconfig(gnutls) pkgconfig(gnutls-extra)
@@ -85,6 +86,7 @@ support for WPA and WPA2 (IEEE 802.11i / RSN).
 %patch8 -p1 -b .quiet-scan-results-msg~
 %patch9 -p1 -b .disconnect-spam~
 %patch10 -p1 -b .assoc-timeout~
+%patch11 -p1 -b .wpa_priv_cast~
 
 pushd wpa_supplicant
 # (blino) comment all "network = { }" blocks
