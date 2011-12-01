@@ -20,6 +20,7 @@ BuildRequires:	libopenssl-devel
 BuildRequires:	pcsc-lite-devel
 BuildRequires:	doxygen
 BuildRequires:	qt4-devel
+BuildRequires:	pkgconfig(libnl-1)
 BuildRequires:	madwifi-source
 Requires(pre):	rpm-helper
 Requires(post):	rpm-helper
