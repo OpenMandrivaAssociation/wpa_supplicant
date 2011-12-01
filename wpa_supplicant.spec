@@ -2,7 +2,9 @@ Summary:	Linux WPA Supplicant (IEEE 802.1X, WPA, WPA2, RSN, IEEE 802.11i)
 Name:		wpa_supplicant
 Version:	0.7.3
 Release:	2
-License:	GPL
+# wpa_supplicant itself is dual-licensed under GPLv2 and BSD license, but as we
+# link against GPL libraries, we must use GPLv2 license
+License:	GPLv2
 Group:		Communications
 URL:		http://hostap.epitest.fi/wpa_supplicant/
 Source0:	http://hostap.epitest.fi/releases/wpa_supplicant-%{version}.tar.gz
