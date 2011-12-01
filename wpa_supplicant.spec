@@ -18,7 +18,7 @@ Patch6:		wpa_supplicant-0.7.3-fix-enum-wpa_event_type-type.patch
 Patch7:		wpa_supplicant-0.7.3-copy-wpa_scan_results_free-for-wpa_priv.patch
 Buildroot:	%{_tmppath}/%{name}-buildroot
 BuildRequires:	dbus-devel
-BuildRequires:	libopenssl-devel
+BuildRequires:	pkgconfig(gnutls) pkgconfig(gnutls-extra)
 BuildRequires:	pcsc-lite-devel
 BuildRequires:	doxygen
 BuildRequires:	qt4-devel
