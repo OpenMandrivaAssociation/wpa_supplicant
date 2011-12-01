@@ -52,18 +52,17 @@ See the project web site or the eap_testing.txt file for a complete
 list of supported EAP methods (IEEE 802.1X Supplicant), supported
 drivers and interoperability testing.
 
-%package -n wpa_gui
-Group: System/Configuration/Networking
-Summary: Graphical tool for wpa_supplicant
+%package -n	wpa_gui
+Group:		System/Configuration/Networking
+Summary:	Graphical tool for wpa_supplicant
 
-%description -n wpa_gui
+%description -n	wpa_gui
 wpa_gui is a QT frontend for wpa_supplicant.
 wpa_supplicant is a WPA Supplicant for Linux, BSD and Windows with
 support for WPA and WPA2 (IEEE 802.11i / RSN).
 
 %prep
-
-%setup -q -n %{name}-%{version}
+%setup -q
 %patch0 -p0 -b .servconf~
 %patch1 -p1 -b .conf~
 %patch2 -p1 -b .WEP232~
