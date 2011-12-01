@@ -97,9 +97,9 @@ mkdir -p %{buildroot}%{_sysconfdir}/dbus-1/system.d/
 mkdir -p %{buildroot}%{_datadir}/dbus-1/system-services/
 
 pushd wpa_supplicant
-cp wpa_supplicant %{buildroot}/%{_sbindir}
-cp wpa_cli %{buildroot}/%{_sbindir}
-cp wpa_passphrase %{buildroot}/%{_sbindir}
+cp wpa_supplicant %{buildroot}%{_sbindir}
+cp wpa_cli %{buildroot}%{_sbindir}
+cp wpa_passphrase %{buildroot}%{_sbindir}
 cp wpa_supplicant.conf %{buildroot}%{_sysconfdir}
 cp wpa_gui/wpa_gui %{buildroot}%{_sbindir}
 cp eapol_test %{buildroot}%{_sbindir}
