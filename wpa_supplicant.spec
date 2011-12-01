@@ -18,11 +18,11 @@ Patch4:		wpa_supplicant-fedora-dbus-null-error.patch
 Patch5:		wpa_supplicant-0.7.3-mga-dbus-service-file-args.patch
 Patch6:		wpa_supplicant-0.7.3-fix-enum-wpa_event_type-type.patch
 Patch7:		wpa_supplicant-0.7.3-copy-wpa_scan_results_free-for-wpa_priv.patch
-BuildRequires:	dbus-devel
+BuildRequires:	pkgconfig(dbus-1)
 BuildRequires:	pkgconfig(gnutls) pkgconfig(gnutls-extra)
-BuildRequires:	pcsc-lite-devel
+BuildRequires:	pkgconfig(libpcsclite)
 BuildRequires:	doxygen
-BuildRequires:	qt4-devel
+BuildRequires:	pkgconfig(Qt3Support) pkgconfig(QtCore) pkgconfig(QtGui)
 BuildRequires:	pkgconfig(libnl-1)
 BuildRequires:	madwifi-source
 BuildRequires:	readline-devel
