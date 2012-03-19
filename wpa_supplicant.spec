@@ -1,7 +1,7 @@
 Summary:	Linux WPA Supplicant (IEEE 802.1X, WPA, WPA2, RSN, IEEE 802.11i)
 Name:		wpa_supplicant
 Version:	0.7.3
-Release:	2
+Release:	4
 # wpa_supplicant itself is dual-licensed under GPLv2 and BSD license, but as we
 # link against GPL libraries, we must use GPLv2 license
 License:	GPLv2
@@ -28,9 +28,11 @@ Patch9:		wpa_supplicant-squelch-driver-disconnect-spam.patch
 # works around busted drivers by increasing association timeout
 Patch10:	wpa_supplicant-assoc-timeout.patch
 Patch11:	wpa_supplicant-0.7.3-fix-wpa_priv-eloop_signal_handler-casting.patch
+# Support building w/ gnutls 3.x
+Patch12:	wpa_supplicant-0.7.3-gnutls3.patch
 Requires(post,postun,preun): systemd-units
 BuildRequires:	pkgconfig(dbus-1)
-BuildRequires:	pkgconfig(gnutls) pkgconfig(gnutls-extra)
+BuildRequires:	pkgconfig(gnutls) >= 3.0
 BuildRequires:	pkgconfig(libpcsclite)
 BuildRequires:	doxygen
 BuildRequires:	pkgconfig(Qt3Support) pkgconfig(QtCore) pkgconfig(QtGui)
@@ -87,6 +89,7 @@ support for WPA and WPA2 (IEEE 802.11i / RSN).
 %patch9 -p1 -b .disconnect-spam~
 %patch10 -p1 -b .assoc-timeout~
 %patch11 -p1 -b .wpa_priv_cast~
+%patch12 -p1 -b .gnutls3~
 
 pushd wpa_supplicant
 # (blino) comment all "network = { }" blocks
