@@ -11,15 +11,11 @@ Source0:	http://hostap.epitest.fi/releases/wpa_supplicant-%{version}.tar.gz
 Source3:	%{name}.service
 Source4:	%{name}.sysconfig
 Source6:	%{name}.logrotate
-Patch0:		wpa_supplicant-0.7.3-servconf.patch
-Patch1:		wpa_supplicant-0.7.3-mdv-defconfig.patch
+Patch1:		wpa_supplicant-1.0-mdv-defconfig.patch
 # should be safe to just bump MAX_WEP_KEY_LEN to 32
 # http://lists.shmoo.com/pipermail/hostap/2005-October/011787.html
 Patch2:		wpa_supplicant-0.6.3-WEP232.patch
-Patch3:		wpa_supplicant-fedora-bss-changed-prop-notify.patch
-Patch4:		wpa_supplicant-fedora-dbus-null-error.patch
-Patch5:		wpa_supplicant-0.7.3-mga-dbus-service-file-args.patch
-Patch6:		wpa_supplicant-0.7.3-fix-enum-wpa_event_type-type.patch
+Patch5:		wpa_supplicant-1.0-mdv-dbus-service-file-args.patch
 Patch7:		wpa_supplicant-0.7.3-copy-wpa_scan_results_free-for-wpa_priv.patch
 # quiet an annoying and frequent syslog message
 Patch8:		wpa_supplicant-quiet-scan-results-message.patch
@@ -28,14 +24,15 @@ Patch9:		wpa_supplicant-squelch-driver-disconnect-spam.patch
 # works around busted drivers by increasing association timeout
 Patch10:	wpa_supplicant-assoc-timeout.patch
 Patch11:	wpa_supplicant-0.7.3-fix-wpa_priv-eloop_signal_handler-casting.patch
-# Support building w/ gnutls 3.x
-Patch12:	wpa_supplicant-0.7.3-gnutls3.patch
+Patch13:	wpa_supplicant-1.0-do-not-call-dbus-functions-with-NULL-path.patch
 Requires(post,postun,preun):	systemd-units
 BuildRequires:	pkgconfig(dbus-1)
 BuildRequires:	pkgconfig(gnutls) >= 3.0
 BuildRequires:	pkgconfig(libpcsclite)
 BuildRequires:	doxygen
-BuildRequires:	pkgconfig(Qt3Support) pkgconfig(QtCore) pkgconfig(QtGui)
+BuildRequires:	pkgconfig(Qt3Support)
+BuildRequires:	pkgconfig(QtCore)
+BuildRequires:	pkgconfig(QtGui)
 BuildRequires:	pkgconfig(libnl-1)
 BuildRequires:	madwifi-source
 BuildRequires:	readline-devel
@@ -77,19 +74,15 @@ support for WPA and WPA2 (IEEE 802.11i / RSN).
 
 %prep
 %setup -q
-%patch0 -p0 -b .servconf~
 %patch1 -p1 -b .conf~
 %patch2 -p1 -b .WEP232~
-%patch3 -p1 -b .bss-changed-prop-notify~
-%patch4 -p1 -b .dbus-null~
 %patch5 -p1 -b .service-file-args~
-%patch6 -p1 -b .enum_type~
 %patch7 -p1 -b .wpa_priv_func~
 %patch8 -p1 -b .quiet-scan-results-msg~
-%patch9 -p1 -b .disconnect-spam~
+#patch9 -p1 -b .disconnect-spam~ NEED A REDIFF?
 %patch10 -p1 -b .assoc-timeout~
 %patch11 -p1 -b .wpa_priv_cast~
-%patch12 -p1 -b .gnutls3~
+%patch13 -p1 -b .null
 
 pushd wpa_supplicant
 # (blino) comment all "network = { }" blocks
@@ -100,10 +93,15 @@ popd
 %build
 %setup_compile_flags
 # Fix bug #63030: dereferencing type-punned pointer will break strict-aliasing rules [-Werror=strict-aliasing]
-export CFLAGS+=" -fno-strict-aliasing -Wno-error=deprecated-declarations" CXXFLAGS+=" -fno-strict-aliasing" FFLAGS+=" -fno-strict-aliasing"
+export CFLAGS+=" -fno-strict-aliasing -Wno-error=deprecated-declarations"
+export CXXFLAGS+=" -fno-strict-aliasing" FFLAGS+=" -fno-strict-aliasing"
+export BINDIR=%{_sbindir}
+export LIBDIR=%{_libdir}
+
+
 pushd wpa_supplicant
 %make
-%make eapol_test 
+%make eapol_test
 pushd wpa_gui
  %qmake_qt4
  %make
@@ -138,24 +136,10 @@ cp doc/docbook/*.5 %{buildroot}%{_mandir}/man5
 popd
 
 %post
-if [ $1 -eq 1 ] ; then 
-    # Initial installation 
-    /bin/systemctl daemon-reload >/dev/null 2>&1 || :
-fi
+%_post_service wpa_supplicant
 
 %preun
-if [ $1 -eq 0 ] ; then
-    # Package removal, not upgrade
-    /bin/systemctl --no-reload disable wpa_supplicant.service > /dev/null 2>&1 || :
-    /bin/systemctl stop wpa_supplicant.service > /dev/null 2>&1 || :
-fi
-
-%postun
-/bin/systemctl daemon-reload >/dev/null 2>&1 || :
-if [ $1 -ge 1 ] ; then
-    # Package upgrade, not uninstall
-    /bin/systemctl try-restart wpa_supplicant.service >/dev/null 2>&1 || :
-fi
+%_preun_service wpa_supplicant
 
 %files
 %doc wpa_supplicant/ChangeLog wpa_supplicant/README wpa_supplicant/eap_testing.txt wpa_supplicant/todo.txt
