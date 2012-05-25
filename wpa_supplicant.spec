@@ -1,7 +1,7 @@
 Summary:	Linux WPA Supplicant (IEEE 802.1X, WPA, WPA2, RSN, IEEE 802.11i)
 Name:		wpa_supplicant
-Version:	0.7.3
-Release:	4
+Version:	1.0
+Release:	1
 # wpa_supplicant itself is dual-licensed under GPLv2 and BSD license, but as we
 # link against GPL libraries, we must use GPLv2 license
 License:	GPLv2
@@ -30,7 +30,7 @@ Patch10:	wpa_supplicant-assoc-timeout.patch
 Patch11:	wpa_supplicant-0.7.3-fix-wpa_priv-eloop_signal_handler-casting.patch
 # Support building w/ gnutls 3.x
 Patch12:	wpa_supplicant-0.7.3-gnutls3.patch
-Requires(post,postun,preun): systemd-units
+Requires(post,postun,preun):	systemd-units
 BuildRequires:	pkgconfig(dbus-1)
 BuildRequires:	pkgconfig(gnutls) >= 3.0
 BuildRequires:	pkgconfig(libpcsclite)
@@ -66,7 +66,7 @@ See the project web site or the eap_testing.txt file for a complete
 list of supported EAP methods (IEEE 802.1X Supplicant), supported
 drivers and interoperability testing.
 
-%package -n	wpa_gui
+%package -n wpa_gui
 Group:		System/Configuration/Networking
 Summary:	Graphical tool for wpa_supplicant
 
