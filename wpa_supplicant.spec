@@ -36,6 +36,7 @@ BuildRequires:	pkgconfig(QtGui)
 BuildRequires:	pkgconfig(libnl-1)
 BuildRequires:	madwifi-source
 BuildRequires:	readline-devel
+BuildRequires:	libgcrypt-devel
 # http://ndiswrapper.sourceforge.net/wiki/index.php/WPA
 
 %description
