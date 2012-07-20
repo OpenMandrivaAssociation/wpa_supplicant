@@ -33,7 +33,7 @@ BuildRequires:	doxygen
 BuildRequires:	pkgconfig(Qt3Support)
 BuildRequires:	pkgconfig(QtCore)
 BuildRequires:	pkgconfig(QtGui)
-BuildRequires:	pkgconfig(libnl-1)
+BuildRequires:	pkgconfig(libnl-3)
 BuildRequires:	madwifi-source
 BuildRequires:	readline-devel
 BuildRequires:	libgcrypt-devel
