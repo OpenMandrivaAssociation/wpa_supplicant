@@ -1,0 +1,22 @@
+--- wpa_supplicant-0.7.3/wpa_supplicant/wpa_priv.c.func_copy~	2011-12-01 03:03:19.062419637 +0100
++++ wpa_supplicant-0.7.3/wpa_supplicant/wpa_priv.c	2011-12-01 03:03:27.209261417 +0100
+@@ -117,6 +117,19 @@ static void wpa_priv_cmd_scan(struct wpa
+ 		iface->driver->scan2(iface->drv_priv, &params);
+ }
+ 
++/* copied from scan.c */
++static void wpa_scan_results_free(struct wpa_scan_results *res)
++{
++	size_t i;
++
++	if (res == NULL)
++		return;
++
++	for (i = 0; i < res->num; i++)
++		os_free(res->res[i]);
++	os_free(res->res);
++	os_free(res);
++}
+ 
+ static void wpa_priv_get_scan_results2(struct wpa_priv_interface *iface,
+ 				       struct sockaddr_un *from)

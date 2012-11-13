@@ -1,0 +1,5 @@
+sources:
+  "wpa_supplicant-1.0.tar.gz:"	22ce2a70863ee47768808453066b635293804e64
+  "wpa_supplicant.logrotate:"	acac162a1edf508b6dbfb99742add927f41f2c4c
+  "wpa_supplicant.service:"	2c7c5115be92b6580069f17157657372d5854a48
+  "wpa_supplicant.sysconfig:"	41c9d0ec152779208bd9041130eb8cf7a2c809ea
