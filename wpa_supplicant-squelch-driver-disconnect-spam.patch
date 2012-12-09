@@ -15,23 +15,23 @@ diff -up wpa_supplicant-0.6.8/wpa_supplicant/events.c.disconnect-spam wpa_suppli
 +	}
 +
  	wpa_supplicant_mark_disassoc(wpa_s);
- 	bgscan_deinit(wpa_s);
- 	wpa_s->bgscan_ssid = NULL;
+ 
+ 	if (authenticating && (wpa_s->drv_flags & WPA_DRIVER_FLAGS_SME))
 diff -up wpa_supplicant-0.6.8/wpa_supplicant/wpa_supplicant.c.disconnect-spam wpa_supplicant-0.6.8/wpa_supplicant/wpa_supplicant.c
 --- wpa_supplicant-0.6.8/wpa_supplicant/wpa_supplicant.c.disconnect-spam	2010-05-06 18:10:51.340288662 -0700
 +++ wpa_supplicant-0.6.8/wpa_supplicant/wpa_supplicant.c	2010-05-06 18:12:06.090413976 -0700
 @@ -382,6 +382,9 @@ static void wpa_supplicant_cleanup(struc
+ 
  	wpa_supplicant_cancel_scan(wpa_s);
  	wpa_supplicant_cancel_auth_timeout(wpa_s);
- 
 +	if (eloop_is_timeout_registered(wpa_disconnect_spam_handle, wpa_s, NULL))
 +		eloop_cancel_timeout(wpa_disconnect_spam_handle, wpa_s, NULL);
 +
- 	ieee80211_sta_deinit(wpa_s);
- 
- 	wpas_wps_deinit(wpa_s);
+ 	eloop_cancel_timeout(wpa_supplicant_stop_countermeasures, wpa_s, NULL);
+ #ifdef CONFIG_DELAYED_MIC_ERROR_REPORT
+ 	eloop_cancel_timeout(wpa_supplicant_delayed_mic_error_report,
 @@ -461,6 +464,23 @@ const char * wpa_supplicant_state_txt(in
- }
+ #endif /* CONFIG_BGSCAN */
  
  
 +void wpa_disconnect_spam_handle(void *eloop_ctx, void *timeout_ctx)
@@ -91,6 +91,6 @@ diff -up wpa_supplicant-0.6.8/wpa_supplicant/wpa_supplicant_i.h.disconnect-spam 
  			      enum wpa_states state);
 +void wpa_disconnect_spam_handle(void *eloop_ctx, void *timeout_ctx);
  struct wpa_ssid * wpa_supplicant_get_ssid(struct wpa_supplicant *wpa_s);
+ const char * wpa_supplicant_get_eap_mode(struct wpa_supplicant *wpa_s);
  void wpa_supplicant_cancel_auth_timeout(struct wpa_supplicant *wpa_s);
- void wpa_supplicant_deauthenticate(struct wpa_supplicant *wpa_s,
 

@@ -1,6 +1,6 @@
 Summary:	Linux WPA Supplicant (IEEE 802.1X, WPA, WPA2, RSN, IEEE 802.11i)
 Name:		wpa_supplicant
-Version:	1.0
+Version:	1.1
 Release:	1
 # wpa_supplicant itself is dual-licensed under GPLv2 and BSD license, but as we
 # link against GPL libraries, we must use GPLv2 license
@@ -25,16 +25,17 @@ Patch9:		wpa_supplicant-squelch-driver-disconnect-spam.patch
 Patch10:	wpa_supplicant-assoc-timeout.patch
 Patch11:	wpa_supplicant-0.7.3-fix-wpa_priv-eloop_signal_handler-casting.patch
 Patch13:	wpa_supplicant-1.0-do-not-call-dbus-functions-with-NULL-path.patch
+#Patch14:	wpa_supplicant-1.0-wpagui-gcc47.patch
+#Patch from Fedora
+Patch16:	wpa_supplicant-gui-qt4.patch
+Patch17:	wpa_supplicant-1.0-libnl3.patch
 Requires(post,postun,preun):	systemd-units
 BuildRequires:	pkgconfig(dbus-1)
 BuildRequires:	pkgconfig(gnutls) >= 3.0
 BuildRequires:	pkgconfig(libpcsclite)
 BuildRequires:	doxygen
-BuildRequires:	pkgconfig(Qt3Support)
 BuildRequires:	pkgconfig(QtCore)
-BuildRequires:	pkgconfig(QtGui)
-BuildRequires:	pkgconfig(libnl-3)
-BuildRequires:	madwifi-source
+BuildRequires:	pkgconfig(libnl-3.0)
 BuildRequires:	readline-devel
 BuildRequires:	libgcrypt-devel
 # http://ndiswrapper.sourceforge.net/wiki/index.php/WPA
@@ -64,26 +65,19 @@ See the project web site or the eap_testing.txt file for a complete
 list of supported EAP methods (IEEE 802.1X Supplicant), supported
 drivers and interoperability testing.
 
-%package -n wpa_gui
-Group:		System/Configuration/Networking
-Summary:	Graphical tool for wpa_supplicant
+%package gui
+Group: System/Configuration/Networking
+Summary: Graphical tool for wpa_supplicant
+Obsoletes: wpa_gui
 
-%description -n	wpa_gui
+%description gui
 wpa_gui is a QT frontend for wpa_supplicant.
 wpa_supplicant is a WPA Supplicant for Linux, BSD and Windows with
 support for WPA and WPA2 (IEEE 802.11i / RSN).
 
 %prep
 %setup -q
-%patch1 -p1 -b .conf~
-%patch2 -p1 -b .WEP232~
-%patch5 -p1 -b .service-file-args~
-%patch7 -p1 -b .wpa_priv_func~
-%patch8 -p1 -b .quiet-scan-results-msg~
-#patch9 -p1 -b .disconnect-spam~ NEED A REDIFF?
-%patch10 -p1 -b .assoc-timeout~
-%patch11 -p1 -b .wpa_priv_cast~
-%patch13 -p1 -b .null
+%apply_patches
 
 pushd wpa_supplicant
 # (blino) comment all "network = { }" blocks
@@ -103,7 +97,7 @@ export LIBDIR=%{_libdir}
 pushd wpa_supplicant
 %make
 %make eapol_test
-pushd wpa_gui
+pushd wpa_gui-qt4
  %qmake_qt4
  %make
 popd
@@ -119,21 +113,37 @@ install -m644 %{SOURCE4} -D %{buildroot}%{_sysconfdir}/sysconfig/%{name}
 install -m644 %{SOURCE6} -D %{buildroot}%{_sysconfdir}/logrotate.d/%{name}
 
 pushd wpa_supplicant
-cp wpa_supplicant %{buildroot}%{_sbindir}
-cp wpa_cli %{buildroot}%{_sbindir}
-cp wpa_passphrase %{buildroot}%{_sbindir}
-cp wpa_supplicant.conf %{buildroot}%{_sysconfdir}
-cp wpa_gui/wpa_gui %{buildroot}%{_sbindir}
-cp eapol_test %{buildroot}%{_sbindir}
-install -m 0644 dbus/dbus-wpa_supplicant.conf \
+
+# binaries
+install -d %{buildroot}%{_sbindir}
+install -m 755 wpa_supplicant %{buildroot}/%{_sbindir}
+install -m 755 wpa_cli %{buildroot}/%{_sbindir}
+install -m 755 wpa_passphrase %{buildroot}/%{_sbindir}
+install -m 755 eapol_test %{buildroot}%{_sbindir}
+
+# gui
+install -d %{buildroot}%{_bindir}
+install -m 755 wpa_gui-qt4/wpa_gui %{buildroot}%{_bindir}
+
+# config
+install -d -m 755 %{buildroot}%{_sysconfdir}
+install -m 600 wpa_supplicant.conf %{buildroot}%{_sysconfdir}/wpa_supplicant.conf
+
+# dbus
+install -d %{buildroot}%{_sysconfdir}/dbus-1/system.d
+install -d %{buildroot}%{_datadir}/dbus-1/system-services
+install -m 644 dbus/dbus-wpa_supplicant.conf \
     %{buildroot}%{_sysconfdir}/dbus-1/system.d/wpa_supplicant.conf
-install -m 0644 dbus/fi.epitest.hostap.WPASupplicant.service \
+install -m 644 dbus/fi.epitest.hostap.WPASupplicant.service \
     %{buildroot}%{_datadir}/dbus-1/system-services
 install -m 0644 dbus/fi.w1.wpa_supplicant1.service \
-    %{buildroot}%{_datadir}/dbus-1/system-services
-mkdir -p %{buildroot}%{_mandir}/man{5,8}
-cp doc/docbook/*.8 %{buildroot}%{_mandir}/man8
-cp doc/docbook/*.5 %{buildroot}%{_mandir}/man5
+     %{buildroot}%{_datadir}/dbus-1/system-services
+
+# man pages
+install -d -m 755 %{buildroot}%{_mandir}/man{5,8}
+install -m 644 doc/docbook/*.8 %{buildroot}%{_mandir}/man8
+install -m 644 doc/docbook/*.5 %{buildroot}%{_mandir}/man5
+
 popd
 
 %post
@@ -160,5 +170,5 @@ popd
 %{_mandir}/man8/*
 %{_mandir}/man5/*
 
-%files -n wpa_gui
-%{_sbindir}/wpa_gui
+%files gui
+%{_bindir}/wpa_gui

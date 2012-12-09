@@ -1,0 +1,12 @@
+diff -Naur -x '*~' wpa_supplicant-1.0/src/drivers/drivers.mak wpa_supplicant-1.0-libnl3/src/drivers/drivers.mak
+--- wpa_supplicant-1.0/src/drivers/drivers.mak	2012-05-09 23:56:09.000000000 +0200
++++ wpa_supplicant-1.0-libnl3/src/drivers/drivers.mak	2012-08-09 17:05:21.702734206 +0200
+@@ -48,7 +48,7 @@
+ ifdef CONFIG_LIBNL32
+   DRV_LIBS += -lnl-3
+   DRV_LIBS += -lnl-genl-3
+-  DRV_CFLAGS += -DCONFIG_LIBNL20
++  DRV_CFLAGS += -DCONFIG_LIBNL20 `pkg-config --cflags libnl-3.0`
+ else
+   ifdef CONFIG_LIBNL_TINY
+     DRV_LIBS += -lnl-tiny
