@@ -1,7 +1,7 @@
 Summary:	Linux WPA Supplicant (IEEE 802.1X, WPA, WPA2, RSN, IEEE 802.11i)
 Name:		wpa_supplicant
-Version:	1.1
-Release:	12
+Version:	2.2
+Release:	1
 # wpa_supplicant itself is dual-licensed under GPLv2 and BSD license, but as we
 # link against GPL libraries, we must use GPLv2 license
 License:	GPLv2
@@ -29,7 +29,7 @@ Patch13:	wpa_supplicant-1.0-do-not-call-dbus-functions-with-NULL-path.patch
 #Patch from Fedora
 Patch16:	wpa_supplicant-gui-qt4.patch
 Patch17:	wpa_supplicant-1.0-libnl3.patch
-Requires(post,postun,preun):	systemd-units
+Requires(post,postun,preun):	rpm-helper
 BuildRequires:	pkgconfig(dbus-1)
 BuildRequires:	pkgconfig(gnutls) >= 3.0
 BuildRequires:	pkgconfig(libpcsclite)
@@ -66,9 +66,9 @@ list of supported EAP methods (IEEE 802.1X Supplicant), supported
 drivers and interoperability testing.
 
 %package gui
-Group: System/Configuration/Networking
-Summary: Graphical tool for wpa_supplicant
-Obsoletes: wpa_gui
+Group:		System/Configuration/Networking
+Summary:	Graphical tool for wpa_supplicant
+Obsoletes:	wpa_gui
 
 %description gui
 wpa_gui is a QT frontend for wpa_supplicant.
@@ -147,10 +147,13 @@ install -m 644 doc/docbook/*.5 %{buildroot}%{_mandir}/man5
 popd
 
 %post
-%_post_service wpa_supplicant
+%systemd_post wpa_supplicant
 
 %preun
-%_preun_service wpa_supplicant
+%systemd_preun wpa_supplicant
+
+%postun
+%systemd_postun
 
 %files
 %doc wpa_supplicant/ChangeLog wpa_supplicant/README wpa_supplicant/eap_testing.txt wpa_supplicant/todo.txt
