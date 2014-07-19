@@ -153,7 +153,7 @@ popd
 %systemd_preun wpa_supplicant
 
 %postun
-%systemd_postun
+%systemd_postun wpa_supplicant
 
 %files
 %doc wpa_supplicant/ChangeLog wpa_supplicant/README wpa_supplicant/eap_testing.txt wpa_supplicant/todo.txt
