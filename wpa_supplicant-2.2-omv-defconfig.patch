@@ -1,0 +1,182 @@
+diff -Naur wpa_supplicant-2.2/wpa_supplicant/defconfig wpa_supplicant-2.2.tpg/wpa_supplicant/defconfig
+--- wpa_supplicant-2.2/wpa_supplicant/defconfig	2014-06-04 13:26:14.000000000 +0000
++++ wpa_supplicant-2.2.tpg/wpa_supplicant/defconfig	2014-07-20 00:49:32.138360854 +0000
+@@ -74,10 +74,10 @@
+ CONFIG_DRIVER_WIRED=y
+ 
+ # Driver interface for the Broadcom RoboSwitch family
+-#CONFIG_DRIVER_ROBOSWITCH=y
++CONFIG_DRIVER_ROBOSWITCH=y
+ 
+ # Driver interface for no driver (e.g., WPS ER only)
+-#CONFIG_DRIVER_NONE=y
++CONFIG_DRIVER_NONE=y
+ 
+ # Solaris libraries
+ #LIBS += -lsocket -ldlpi -lnsl
+@@ -106,7 +106,7 @@
+ # Note: If OpenSSL is used as the TLS library, OpenSSL 1.0 or newer is needed
+ # for EAP-FAST support. Older OpenSSL releases would need to be patched, e.g.,
+ # with openssl-0.9.8x-tls-extensions.patch, to add the needed functions.
+-#CONFIG_EAP_FAST=y
++CONFIG_EAP_FAST=y
+ 
+ # EAP-GTC
+ CONFIG_EAP_GTC=y
+@@ -115,45 +115,45 @@
+ CONFIG_EAP_OTP=y
+ 
+ # EAP-SIM (enable CONFIG_PCSC, if EAP-SIM is used)
+-#CONFIG_EAP_SIM=y
++CONFIG_EAP_SIM=y
+ 
+ # EAP-PSK (experimental; this is _not_ needed for WPA-PSK)
+-#CONFIG_EAP_PSK=y
++CONFIG_EAP_PSK=y
+ 
+ # EAP-pwd (secure authentication using only a password)
+ #CONFIG_EAP_PWD=y
+ 
+ # EAP-PAX
+-#CONFIG_EAP_PAX=y
++CONFIG_EAP_PAX=y
+ 
+ # LEAP
+ CONFIG_EAP_LEAP=y
+ 
+ # EAP-AKA (enable CONFIG_PCSC, if EAP-AKA is used)
+-#CONFIG_EAP_AKA=y
++CONFIG_EAP_AKA=y
+ 
+ # EAP-AKA' (enable CONFIG_PCSC, if EAP-AKA' is used).
+ # This requires CONFIG_EAP_AKA to be enabled, too.
+-#CONFIG_EAP_AKA_PRIME=y
++CONFIG_EAP_AKA_PRIME=y
+ 
+ # Enable USIM simulator (Milenage) for EAP-AKA
+-#CONFIG_USIM_SIMULATOR=y
++CONFIG_USIM_SIMULATOR=y
+ 
+ # EAP-SAKE
+-#CONFIG_EAP_SAKE=y
++CONFIG_EAP_SAKE=y
+ 
+ # EAP-GPSK
+-#CONFIG_EAP_GPSK=y
++CONFIG_EAP_GPSK=y
+ # Include support for optional SHA256 cipher suite in EAP-GPSK
+-#CONFIG_EAP_GPSK_SHA256=y
++CONFIG_EAP_GPSK_SHA256=y
+ 
+ # EAP-TNC and related Trusted Network Connect support (experimental)
+-#CONFIG_EAP_TNC=y
++CONFIG_EAP_TNC=y
+ 
+ # Wi-Fi Protected Setup (WPS)
+-#CONFIG_WPS=y
++CONFIG_WPS=y
+ # Enable WPS external registrar functionality
+-#CONFIG_WPS_ER=y
++CONFIG_WPS_ER=y
+ # Disable credentials for an open network by default when acting as a WPS
+ # registrar.
+ #CONFIG_WPS_REG_DISABLE_OPEN=y
+@@ -161,7 +161,7 @@
+ #CONFIG_WPS_NFC=y
+ 
+ # EAP-IKEv2
+-#CONFIG_EAP_IKEV2=y
++CONFIG_EAP_IKEV2=y
+ 
+ # EAP-EKE
+ #CONFIG_EAP_EKE=y
+@@ -176,7 +176,7 @@
+ 
+ # PC/SC interface for smartcards (USIM, GSM SIM)
+ # Enable this if EAP-SIM or EAP-AKA is included
+-#CONFIG_PCSC=y
++CONFIG_PCSC=y
+ 
+ # Support HT overrides (disable HT/HT40, mask MCS rates, etc.)
+ #CONFIG_HT_OVERRIDES=y
+@@ -203,7 +203,7 @@
+ # When building a wpa_cli binary for distribution, please note that these
+ # libraries are licensed under GPL and as such, BSD license may not apply for
+ # the resulting binary.
+-#CONFIG_READLINE=y
++CONFIG_READLINE=y
+ 
+ # Include internal line edit mode in wpa_cli. This can be used as a replacement
+ # for GNU Readline to provide limited command line editing and history support.
+@@ -284,7 +284,7 @@
+ 
+ # IEEE 802.11w (management frame protection), also known as PMF
+ # Driver support is also needed for IEEE 802.11w.
+-#CONFIG_IEEE80211W=y
++CONFIG_IEEE80211W=y
+ 
+ # Select TLS implementation
+ # openssl = OpenSSL (default)
+@@ -331,14 +331,14 @@
+ 
+ # Add support for old DBus control interface
+ # (fi.epitest.hostap.WPASupplicant)
+-#CONFIG_CTRL_IFACE_DBUS=y
++CONFIG_CTRL_IFACE_DBUS=y
+ 
+ # Add support for new DBus control interface
+ # (fi.w1.hostap.wpa_supplicant1)
+-#CONFIG_CTRL_IFACE_DBUS_NEW=y
++CONFIG_CTRL_IFACE_DBUS_NEW=y
+ 
+ # Add introspection support for new DBus control interface
+-#CONFIG_CTRL_IFACE_DBUS_INTRO=y
++CONFIG_CTRL_IFACE_DBUS_INTRO=y
+ 
+ # Add support for loading EAP methods dynamically as shared libraries.
+ # When this option is enabled, each EAP method can be either included
+@@ -368,7 +368,7 @@
+ #CONFIG_DEBUG_FILE=y
+ 
+ # Send debug messages to syslog instead of stdout
+-#CONFIG_DEBUG_SYSLOG=y
++CONFIG_DEBUG_SYSLOG=y
+ # Set syslog facility for debug messages
+ #CONFIG_DEBUG_SYSLOG_FACILITY=LOG_DAEMON
+ 
+@@ -387,7 +387,7 @@
+ 
+ # Enable mitigation against certain attacks against TKIP by delaying Michael
+ # MIC error reports by a random amount of time between 0 and 60 seconds
+-#CONFIG_DELAYED_MIC_ERROR_REPORT=y
++CONFIG_DELAYED_MIC_ERROR_REPORT=y
+ 
+ # Enable tracing code for developer debugging
+ # This tracks use of memory allocations and other registrations and reports
+@@ -453,7 +453,7 @@
+ # This can be used to enable functionality to improve interworking with
+ # external networks (GAS/ANQP to learn more about the networks and network
+ # selection based on available credentials).
+-#CONFIG_INTERWORKING=y
++CONFIG_INTERWORKING=y
+ 
+ # Hotspot 2.0
+ #CONFIG_HS20=y
+@@ -471,7 +471,7 @@
+ # P2P (Wi-Fi Direct)
+ # This can be used to enable P2P support in wpa_supplicant. See README-P2P for
+ # more information on P2P operations.
+-#CONFIG_P2P=y
++CONFIG_P2P=y
+ 
+ # Enable TDLS support
+ #CONFIG_TDLS=y
+@@ -479,7 +479,7 @@
+ # Wi-Fi Direct
+ # This can be used to enable Wi-Fi Direct extensions for P2P using an external
+ # program to control the additional information exchanges in the messages.
+-#CONFIG_WIFI_DISPLAY=y
++CONFIG_WIFI_DISPLAY=y
+ 
+ # Autoscan
+ # This can be used to enable automatic scan support in wpa_supplicant.
