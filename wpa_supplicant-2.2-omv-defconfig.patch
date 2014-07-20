@@ -1,6 +1,6 @@
 diff -Naur wpa_supplicant-2.2/wpa_supplicant/defconfig wpa_supplicant-2.2.tpg/wpa_supplicant/defconfig
 --- wpa_supplicant-2.2/wpa_supplicant/defconfig	2014-06-04 13:26:14.000000000 +0000
-+++ wpa_supplicant-2.2.tpg/wpa_supplicant/defconfig	2014-07-20 00:49:32.138360854 +0000
++++ wpa_supplicant-2.2.tpg/wpa_supplicant/defconfig	2014-07-20 01:44:03.171406970 +0000
 @@ -74,10 +74,10 @@
  CONFIG_DRIVER_WIRED=y
  
@@ -153,7 +153,7 @@ diff -Naur wpa_supplicant-2.2/wpa_supplicant/defconfig wpa_supplicant-2.2.tpg/wp
  
  # Enable tracing code for developer debugging
  # This tracks use of memory allocations and other registrations and reports
-@@ -453,7 +453,7 @@
+@@ -453,10 +453,10 @@
  # This can be used to enable functionality to improve interworking with
  # external networks (GAS/ANQP to learn more about the networks and network
  # selection based on available credentials).
@@ -161,7 +161,11 @@ diff -Naur wpa_supplicant-2.2/wpa_supplicant/defconfig wpa_supplicant-2.2.tpg/wp
 +CONFIG_INTERWORKING=y
  
  # Hotspot 2.0
- #CONFIG_HS20=y
+-#CONFIG_HS20=y
++CONFIG_HS20=y
+ 
+ # Disable roaming in wpa_supplicant
+ #CONFIG_NO_ROAMING=y
 @@ -471,7 +471,7 @@
  # P2P (Wi-Fi Direct)
  # This can be used to enable P2P support in wpa_supplicant. See README-P2P for
