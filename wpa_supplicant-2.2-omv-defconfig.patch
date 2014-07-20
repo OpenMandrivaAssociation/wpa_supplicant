@@ -1,6 +1,15 @@
 diff -Naur wpa_supplicant-2.2/wpa_supplicant/defconfig wpa_supplicant-2.2.tpg/wpa_supplicant/defconfig
 --- wpa_supplicant-2.2/wpa_supplicant/defconfig	2014-06-04 13:26:14.000000000 +0000
-+++ wpa_supplicant-2.2.tpg/wpa_supplicant/defconfig	2014-07-20 01:44:03.171406970 +0000
++++ wpa_supplicant-2.2.tpg/wpa_supplicant/defconfig	2014-07-20 02:15:51.384636203 +0000
+@@ -41,7 +41,7 @@
+ #CONFIG_LIBNL20=y
+ 
+ # Use libnl 3.2 libraries (if this is selected, CONFIG_LIBNL20 is ignored)
+-#CONFIG_LIBNL32=y
++CONFIG_LIBNL32=y
+ 
+ 
+ # Driver interface for FreeBSD net80211 layer (e.g., Atheros driver)
 @@ -74,10 +74,10 @@
  CONFIG_DRIVER_WIRED=y
  
