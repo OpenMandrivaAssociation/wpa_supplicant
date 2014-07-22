@@ -1,6 +1,6 @@
-diff -urN wpa_supplicant-2.2.orig/wpa_supplicant/defconfig wpa_supplicant-2.2/wpa_supplicant/defconfig
---- wpa_supplicant-2.2.orig/wpa_supplicant/defconfig	2014-07-09 14:35:00.102722444 +0400
-+++ wpa_supplicant-2.2/wpa_supplicant/defconfig	2014-07-09 14:39:05.133246728 +0400
+diff -Naur wpa_supplicant-2.2/wpa_supplicant/defconfig wpa_supplicant-2.2.tpg/wpa_supplicant/defconfig
+--- wpa_supplicant-2.2/wpa_supplicant/defconfig	2014-06-04 13:26:14.000000000 +0000
++++ wpa_supplicant-2.2.tpg/wpa_supplicant/defconfig	2014-07-20 02:15:51.384636203 +0000
 @@ -41,7 +41,7 @@
  #CONFIG_LIBNL20=y
  
@@ -32,7 +32,7 @@ diff -urN wpa_supplicant-2.2.orig/wpa_supplicant/defconfig wpa_supplicant-2.2/wp
  
  # EAP-GTC
  CONFIG_EAP_GTC=y
-@@ -115,43 +115,43 @@
+@@ -115,45 +115,45 @@
  CONFIG_EAP_OTP=y
  
  # EAP-SIM (enable CONFIG_PCSC, if EAP-SIM is used)
@@ -85,8 +85,11 @@ diff -urN wpa_supplicant-2.2.orig/wpa_supplicant/defconfig wpa_supplicant-2.2/wp
 -#CONFIG_WPS=y
 +CONFIG_WPS=y
  # Enable WPS external registrar functionality
- #CONFIG_WPS_ER=y
+-#CONFIG_WPS_ER=y
++CONFIG_WPS_ER=y
  # Disable credentials for an open network by default when acting as a WPS
+ # registrar.
+ #CONFIG_WPS_REG_DISABLE_OPEN=y
 @@ -161,7 +161,7 @@
  #CONFIG_WPS_NFC=y
  
@@ -105,15 +108,6 @@ diff -urN wpa_supplicant-2.2.orig/wpa_supplicant/defconfig wpa_supplicant-2.2/wp
  
  # Support HT overrides (disable HT/HT40, mask MCS rates, etc.)
  #CONFIG_HT_OVERRIDES=y
-@@ -185,7 +185,7 @@
- #CONFIG_VHT_OVERRIDES=y
- 
- # Development testing
--#CONFIG_EAPOL_TEST=y
-+CONFIG_EAPOL_TEST=y
- 
- # Select control interface backend for external programs, e.g, wpa_cli:
- # unix = UNIX domain sockets (default for Linux/*BSD)
 @@ -203,7 +203,7 @@
  # When building a wpa_cli binary for distribution, please note that these
  # libraries are licensed under GPL and as such, BSD license may not apply for
@@ -150,19 +144,15 @@ diff -urN wpa_supplicant-2.2.orig/wpa_supplicant/defconfig wpa_supplicant-2.2/wp
  
  # Add support for loading EAP methods dynamically as shared libraries.
  # When this option is enabled, each EAP method can be either included
-@@ -362,10 +362,10 @@
- #CONFIG_DYNAMIC_EAP_METHODS=y
- 
- # IEEE Std 802.11r-2008 (Fast BSS Transition)
--#CONFIG_IEEE80211R=y
-+CONFIG_IEEE80211R=y
- 
- # Add support for writing debug log to a file (/tmp/wpa_supplicant-log-#.txt)
--#CONFIG_DEBUG_FILE=y
-+CONFIG_DEBUG_FILE=y
+@@ -368,7 +368,7 @@
+ #CONFIG_DEBUG_FILE=y
  
  # Send debug messages to syslog instead of stdout
- #CONFIG_DEBUG_SYSLOG=y
+-#CONFIG_DEBUG_SYSLOG=y
++CONFIG_DEBUG_SYSLOG=y
+ # Set syslog facility for debug messages
+ #CONFIG_DEBUG_SYSLOG_FACILITY=LOG_DAEMON
+ 
 @@ -387,7 +387,7 @@
  
  # Enable mitigation against certain attacks against TKIP by delaying Michael
@@ -172,3 +162,34 @@ diff -urN wpa_supplicant-2.2.orig/wpa_supplicant/defconfig wpa_supplicant-2.2/wp
  
  # Enable tracing code for developer debugging
  # This tracks use of memory allocations and other registrations and reports
+@@ -453,10 +453,10 @@
+ # This can be used to enable functionality to improve interworking with
+ # external networks (GAS/ANQP to learn more about the networks and network
+ # selection based on available credentials).
+-#CONFIG_INTERWORKING=y
++CONFIG_INTERWORKING=y
+ 
+ # Hotspot 2.0
+-#CONFIG_HS20=y
++CONFIG_HS20=y
+ 
+ # Disable roaming in wpa_supplicant
+ #CONFIG_NO_ROAMING=y
+@@ -471,7 +471,7 @@
+ # P2P (Wi-Fi Direct)
+ # This can be used to enable P2P support in wpa_supplicant. See README-P2P for
+ # more information on P2P operations.
+-#CONFIG_P2P=y
++CONFIG_P2P=y
+ 
+ # Enable TDLS support
+ #CONFIG_TDLS=y
+@@ -479,7 +479,7 @@
+ # Wi-Fi Direct
+ # This can be used to enable Wi-Fi Direct extensions for P2P using an external
+ # program to control the additional information exchanges in the messages.
+-#CONFIG_WIFI_DISPLAY=y
++CONFIG_WIFI_DISPLAY=y
+ 
+ # Autoscan
+ # This can be used to enable automatic scan support in wpa_supplicant.

@@ -1,7 +1,7 @@
 Summary:	Linux WPA Supplicant (IEEE 802.1X, WPA, WPA2, RSN, IEEE 802.11i)
 Name:		wpa_supplicant
-Version:	1.1
-Release:	8.1
+Version:	2.2
+Release:	3
 # wpa_supplicant itself is dual-licensed under GPLv2 and BSD license, but as we
 # link against GPL libraries, we must use GPLv2 license
 License:	GPLv2
@@ -11,25 +11,26 @@ Source0:	http://hostap.epitest.fi/releases/wpa_supplicant-%{version}.tar.gz
 Source3:	%{name}.service
 Source4:	%{name}.sysconfig
 Source6:	%{name}.logrotate
-Patch1:		wpa_supplicant-1.0-mdv-defconfig.patch
+Patch1:		wpa_supplicant-2.2-omv-defconfig.patch
 # should be safe to just bump MAX_WEP_KEY_LEN to 32
 # http://lists.shmoo.com/pipermail/hostap/2005-October/011787.html
 Patch2:		wpa_supplicant-0.6.3-WEP232.patch
 Patch5:		wpa_supplicant-1.0-mdv-dbus-service-file-args.patch
 Patch7:		wpa_supplicant-0.7.3-copy-wpa_scan_results_free-for-wpa_priv.patch
 # quiet an annoying and frequent syslog message
-Patch8:		wpa_supplicant-quiet-scan-results-message.patch
+Patch8:		wpa_supplicant-2.2-quiet-scan-results-message.patch
 # recover from streams of driver disconnect messages (iwl3945)
-Patch9:		wpa_supplicant-squelch-driver-disconnect-spam.patch
+# rediff ?
+#Patch9:		wpa_supplicant-squelch-driver-disconnect-spam.patch
 # works around busted drivers by increasing association timeout
 Patch10:	wpa_supplicant-assoc-timeout.patch
 Patch11:	wpa_supplicant-0.7.3-fix-wpa_priv-eloop_signal_handler-casting.patch
 Patch13:	wpa_supplicant-1.0-do-not-call-dbus-functions-with-NULL-path.patch
 #Patch14:	wpa_supplicant-1.0-wpagui-gcc47.patch
 #Patch from Fedora
-Patch16:	wpa_supplicant-gui-qt4.patch
-Patch17:	wpa_supplicant-1.0-libnl3.patch
-Requires(post,postun,preun):	systemd-units
+Patch16:	wpa_supplicant-2.2-gui-qt4.patch
+Patch17:	wpa_supplicant-2.2-libnl3.patch
+Requires(post,postun,preun):	rpm-helper
 BuildRequires:	pkgconfig(dbus-1)
 BuildRequires:	pkgconfig(gnutls) >= 3.0
 BuildRequires:	pkgconfig(libpcsclite)
@@ -66,9 +67,9 @@ list of supported EAP methods (IEEE 802.1X Supplicant), supported
 drivers and interoperability testing.
 
 %package gui
-Group: System/Configuration/Networking
-Summary: Graphical tool for wpa_supplicant
-Obsoletes: wpa_gui
+Group:		System/Configuration/Networking
+Summary:	Graphical tool for wpa_supplicant
+Obsoletes:	wpa_gui
 
 %description gui
 wpa_gui is a QT frontend for wpa_supplicant.
@@ -108,7 +109,7 @@ mkdir -p %{buildroot}%{_sbindir}
 mkdir -p %{buildroot}%{_sysconfdir}/dbus-1/system.d/
 mkdir -p %{buildroot}%{_datadir}/dbus-1/system-services/
 
-install -m755 %{SOURCE3} -D %{buildroot}%{_systemunitdir}/%{name}.service
+install -m644 %{SOURCE3} -D %{buildroot}%{_systemunitdir}/%{name}.service
 install -m644 %{SOURCE4} -D %{buildroot}%{_sysconfdir}/sysconfig/%{name}
 install -m644 %{SOURCE6} -D %{buildroot}%{_sysconfdir}/logrotate.d/%{name}
 

@@ -5,10 +5,10 @@ After=syslog.target
 
 [Service]
 Type=dbus
-BusName=fi.w1.wpa_supplicant1
-EnvironmentFile=-/etc/sysconfig/wpa_supplicant
-ExecStart=/usr/sbin/wpa_supplicant -u -f /var/log/wpa_supplicant.log -c /etc/wpa_supplicant.conf $INTERFACES $DRIVERS $OTHER_ARGS
+BusName=fi.epitest.hostap.WPASupplicant
+EnvironmentFile=-/etc/sysconfig/wpa_supplicant.conf
+ExecStart=/usr/sbin/wpa_supplicant -c /etc/wpa_supplicant.conf -u -P /var/run/wpa_supplicant.pid $INTERFACES $DRIVERS $OTHER_ARGS
 
 [Install]
 WantedBy=multi-user.target
-
+Alias=dbus-fi.epitest.hostap.WPASupplicant.service
