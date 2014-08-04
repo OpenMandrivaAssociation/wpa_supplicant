@@ -86,6 +86,8 @@ perl -pi -e '$_ = "# $_" if /^\s*network\s*=\s*{/ .. /^\s*}/' wpa_supplicant.con
 cp defconfig .config
 popd
 
+export CC=%{__cc}
+export CXX=%{__cxx}
 %build
 %setup_compile_flags
 # Fix bug #63030: dereferencing type-punned pointer will break strict-aliasing rules [-Werror=strict-aliasing]
