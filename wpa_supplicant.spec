@@ -11,6 +11,7 @@ Source0:	http://hostap.epitest.fi/releases/wpa_supplicant-%{version}.tar.gz
 Source3:	%{name}.service
 Source4:	%{name}.sysconfig
 Source6:	%{name}.logrotate
+Source7:	%{name}.tmpfiles
 Patch1:		wpa_supplicant-2.2-omv-defconfig.patch
 # should be safe to just bump MAX_WEP_KEY_LEN to 32
 # http://lists.shmoo.com/pipermail/hostap/2005-October/011787.html
@@ -111,9 +112,10 @@ mkdir -p %{buildroot}%{_sbindir}
 mkdir -p %{buildroot}%{_sysconfdir}/dbus-1/system.d/
 mkdir -p %{buildroot}%{_datadir}/dbus-1/system-services/
 
-install -m644 %{SOURCE3} -D %{buildroot}%{_systemunitdir}/%{name}.service
-install -m644 %{SOURCE4} -D %{buildroot}%{_sysconfdir}/sysconfig/%{name}
-install -m644 %{SOURCE6} -D %{buildroot}%{_sysconfdir}/logrotate.d/%{name}
+install -m0644 %{SOURCE3} -D %{buildroot}%{_systemunitdir}/%{name}.service
+install -m0644 %{SOURCE4} -D %{buildroot}%{_sysconfdir}/sysconfig/%{name}
+install -m0644 %{SOURCE6} -D %{buildroot}%{_sysconfdir}/logrotate.d/%{name}
+install -m0644 %{SOURCE4} -D %{buildroot}%{_tmpfilesdir}/%{name}.conf
 
 pushd wpa_supplicant
 
@@ -151,6 +153,7 @@ popd
 
 %post
 %systemd_post wpa_supplicant
+%_tmpfilescreate %{name}
 
 %preun
 %systemd_preun wpa_supplicant
@@ -166,6 +169,7 @@ popd
 %config(noreplace) %{_sysconfdir}/sysconfig/%{name}
 %config(noreplace) %{_sysconfdir}/logrotate.d/%{name}
 %{_systemunitdir}/%{name}.service
+%{_tmpfilesdir}/%{name}.conf
 %{_sbindir}/wpa_cli
 %{_sbindir}/wpa_passphrase
 %{_sbindir}/wpa_supplicant
