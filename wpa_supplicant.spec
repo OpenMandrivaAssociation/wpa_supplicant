@@ -153,7 +153,7 @@ popd
 
 %post
 %systemd_post wpa_supplicant
-%_tmpfilescreate %{name}
+%tmpfiles_create %{name}
 
 %preun
 %systemd_preun wpa_supplicant
