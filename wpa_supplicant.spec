@@ -115,7 +115,7 @@ mkdir -p %{buildroot}%{_datadir}/dbus-1/system-services/
 install -m0644 %{SOURCE3} -D %{buildroot}%{_systemunitdir}/%{name}.service
 install -m0644 %{SOURCE4} -D %{buildroot}%{_sysconfdir}/sysconfig/%{name}
 install -m0644 %{SOURCE6} -D %{buildroot}%{_sysconfdir}/logrotate.d/%{name}
-install -m0644 %{SOURCE4} -D %{buildroot}%{_tmpfilesdir}/%{name}.conf
+install -m0644 %{SOURCE7} -D %{buildroot}%{_tmpfilesdir}/%{name}.conf
 
 pushd wpa_supplicant
 
