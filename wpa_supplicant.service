@@ -11,4 +11,3 @@ ExecStart=/usr/sbin/wpa_supplicant -u -f /var/log/wpa_supplicant.log -c /etc/wpa
 
 [Install]
 WantedBy=multi-user.target
-
