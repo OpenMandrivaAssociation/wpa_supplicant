@@ -1,5 +1,2 @@
-removed_sources:
-  wpa_supplicant-1.0.tar.gz: 22ce2a70863ee47768808453066b635293804e64
-  wpa_supplicant-1.1.tar.gz: 88aefc69b6530abd1ba2c6990c28555fd0bfca4a
 sources:
-  wpa_supplicant-2.2.tar.gz: 0c2ff4fd2e2f6325147cca0357d6c9f524efa26a
+  wpa_supplicant-2.3.tar.gz: 3b2f557daf675d0859c4f285f6c03d8ab53c7ff3
