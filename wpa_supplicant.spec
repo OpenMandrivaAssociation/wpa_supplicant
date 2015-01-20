@@ -1,7 +1,7 @@
 Summary:	Linux WPA Supplicant (IEEE 802.1X, WPA, WPA2, RSN, IEEE 802.11i)
 Name:		wpa_supplicant
 Version:	2.3
-Release:	2
+Release:	3
 # wpa_supplicant itself is dual-licensed under GPLv2 and BSD license, but as we
 # link against GPL libraries, we must use GPLv2 license
 License:	GPLv2
@@ -152,8 +152,8 @@ install -m 644 doc/docbook/*.5 %{buildroot}%{_mandir}/man5
 popd
 
 %post
-%systemd_post wpa_supplicant
 %tmpfiles_create %{name}
+%systemd_post wpa_supplicant
 
 %preun
 %systemd_preun wpa_supplicant
