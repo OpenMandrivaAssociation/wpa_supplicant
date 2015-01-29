@@ -1,16 +1,13 @@
 Summary:	Linux WPA Supplicant (IEEE 802.1X, WPA, WPA2, RSN, IEEE 802.11i)
 Name:		wpa_supplicant
 Version:	2.3
-Release:	3
+Release:	4
 # wpa_supplicant itself is dual-licensed under GPLv2 and BSD license, but as we
 # link against GPL libraries, we must use GPLv2 license
 License:	GPLv2
 Group:		Communications
 URL:		http://hostap.epitest.fi/wpa_supplicant/
 Source0:	http://hostap.epitest.fi/releases/wpa_supplicant-%{version}.tar.gz
-Source3:	%{name}.service
-Source4:	%{name}.sysconfig
-Source6:	%{name}.logrotate
 Source7:	%{name}.tmpfiles
 Patch1:		wpa_supplicant-2.2-omv-defconfig.patch
 # should be safe to just bump MAX_WEP_KEY_LEN to 32
@@ -112,9 +109,8 @@ mkdir -p %{buildroot}%{_sbindir}
 mkdir -p %{buildroot}%{_sysconfdir}/dbus-1/system.d/
 mkdir -p %{buildroot}%{_datadir}/dbus-1/system-services/
 
-install -m0644 %{SOURCE3} -D %{buildroot}%{_systemunitdir}/%{name}.service
-install -m0644 %{SOURCE4} -D %{buildroot}%{_sysconfdir}/sysconfig/%{name}
-install -m0644 %{SOURCE6} -D %{buildroot}%{_sysconfdir}/logrotate.d/%{name}
+install -d %{buildroot}%{_systemunitdir}/
+install -m0644 %{name}/systemd/*.service -D %{buildroot}%{_systemunitdir}/
 install -m0644 %{SOURCE7} -D %{buildroot}%{_tmpfilesdir}/%{name}.conf
 
 pushd wpa_supplicant
@@ -131,8 +127,8 @@ install -d %{buildroot}%{_bindir}
 install -m 755 wpa_gui-qt4/wpa_gui %{buildroot}%{_bindir}
 
 # config
-install -d -m 755 %{buildroot}%{_sysconfdir}
-install -m 600 wpa_supplicant.conf %{buildroot}%{_sysconfdir}/wpa_supplicant.conf
+install -d -m 755 %{buildroot}%{_sysconfdir}/%{name}
+install -m 600 wpa_supplicant.conf %{buildroot}%{_sysconfdir}/%{name}/wpa_supplicant.conf
 
 # dbus
 install -d %{buildroot}%{_sysconfdir}/dbus-1/system.d
@@ -153,22 +149,24 @@ popd
 
 %post
 %tmpfiles_create %{name}
-%systemd_post wpa_supplicant
+# not needed since we used systemd-networkd
+#% systemd_post wpa_supplicant
 
-%preun
-%systemd_preun wpa_supplicant
+#% preun
+#% systemd_preun wpa_supplicant
 
-%postun
-%systemd_postun wpa_supplicant
+#% postun
+#% systemd_postun wpa_supplicant
 
 %files
 %doc wpa_supplicant/ChangeLog wpa_supplicant/README wpa_supplicant/eap_testing.txt wpa_supplicant/todo.txt
 %doc wpa_supplicant/README-WPS
 %doc wpa_supplicant/examples/*.conf
-%attr(0600,root,daemon) %config(noreplace) %{_sysconfdir}/wpa_supplicant.conf
-%config(noreplace) %{_sysconfdir}/sysconfig/%{name}
-%config(noreplace) %{_sysconfdir}/logrotate.d/%{name}
+%attr(0600,root,daemon) %config(noreplace) %{_sysconfdir}/%{name}/wpa_supplicant.conf
 %{_systemunitdir}/%{name}.service
+%{_systemunitdir}/%{name}-nl80211@.service
+%{_systemunitdir}/%{name}-wired@.service
+%{_systemunitdir}/%{name}@.service
 %{_tmpfilesdir}/%{name}.conf
 %{_sbindir}/wpa_cli
 %{_sbindir}/wpa_passphrase
