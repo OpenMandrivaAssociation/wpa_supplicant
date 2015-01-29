@@ -37,6 +37,7 @@ BuildRequires:	pkgconfig(QtCore)
 BuildRequires:	pkgconfig(libnl-3.0)
 BuildRequires:	readline-devel
 BuildRequires:	libgcrypt-devel
+Requires:		systemd >= 218
 # http://ndiswrapper.sourceforge.net/wiki/index.php/WPA
 
 %description
