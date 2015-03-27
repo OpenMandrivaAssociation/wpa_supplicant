@@ -1,7 +1,7 @@
 Summary:	Linux WPA Supplicant (IEEE 802.1X, WPA, WPA2, RSN, IEEE 802.11i)
 Name:		wpa_supplicant
-Version:	2.3
-Release:	5
+Version:	2.4
+Release:	1
 # wpa_supplicant itself is dual-licensed under GPLv2 and BSD license, but as we
 # link against GPL libraries, we must use GPLv2 license
 License:	GPLv2
@@ -28,7 +28,6 @@ Patch13:	wpa_supplicant-1.0-do-not-call-dbus-functions-with-NULL-path.patch
 #Patch from Fedora
 Patch16:	wpa_supplicant-2.2-gui-qt4.patch
 Patch17:	wpa_supplicant-2.2-libnl3.patch
-Requires(post,postun,preun):	rpm-helper
 BuildRequires:	pkgconfig(dbus-1)
 BuildRequires:	pkgconfig(gnutls) >= 3.0
 BuildRequires:	pkgconfig(libpcsclite)
@@ -147,16 +146,6 @@ install -m 644 doc/docbook/*.8 %{buildroot}%{_mandir}/man8
 install -m 644 doc/docbook/*.5 %{buildroot}%{_mandir}/man5
 
 popd
-
-%post
-%tmpfiles_create %{name}
-%systemd_post wpa_supplicant
-
-%preun
-%systemd_preun wpa_supplicant
-
-%postun
-%systemd_postun wpa_supplicant
 
 %files
 %doc wpa_supplicant/ChangeLog wpa_supplicant/README wpa_supplicant/eap_testing.txt wpa_supplicant/todo.txt
