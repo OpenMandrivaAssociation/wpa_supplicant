@@ -24,19 +24,15 @@ Patch8:		wpa_supplicant-2.2-quiet-scan-results-message.patch
 Patch10:	wpa_supplicant-assoc-timeout.patch
 Patch11:	wpa_supplicant-0.7.3-fix-wpa_priv-eloop_signal_handler-casting.patch
 Patch13:	wpa_supplicant-1.0-do-not-call-dbus-functions-with-NULL-path.patch
-#Patch14:	wpa_supplicant-1.0-wpagui-gcc47.patch
-#Patch from Fedora
-Patch16:	wpa_supplicant-2.2-gui-qt4.patch
-Patch17:	wpa_supplicant-2.2-libnl3.patch
 BuildRequires:	pkgconfig(dbus-1)
 BuildRequires:	pkgconfig(gnutls) >= 3.0
 BuildRequires:	pkgconfig(libpcsclite)
 BuildRequires:	doxygen
-BuildRequires:	pkgconfig(QtCore)
 BuildRequires:	pkgconfig(libnl-3.0)
 BuildRequires:	readline-devel
 BuildRequires:	libgcrypt-devel
-Requires:		systemd >= 218
+Requires:	systemd >= 218
+Obsoletes:	wpa_supplicant-gui < 2.4
 # http://ndiswrapper.sourceforge.net/wiki/index.php/WPA
 
 %description
@@ -64,16 +60,6 @@ See the project web site or the eap_testing.txt file for a complete
 list of supported EAP methods (IEEE 802.1X Supplicant), supported
 drivers and interoperability testing.
 
-%package gui
-Group:		System/Configuration/Networking
-Summary:	Graphical tool for wpa_supplicant
-Obsoletes:	wpa_gui
-
-%description gui
-wpa_gui is a QT frontend for wpa_supplicant.
-wpa_supplicant is a WPA Supplicant for Linux, BSD and Windows with
-support for WPA and WPA2 (IEEE 802.11i / RSN).
-
 %prep
 %setup -q
 %apply_patches
@@ -98,10 +84,6 @@ export LIBDIR=%{_libdir}
 pushd wpa_supplicant
 %make
 %make eapol_test
-pushd wpa_gui-qt4
- %qmake_qt4
- %make
-popd
 popd
 
 %install
@@ -121,10 +103,6 @@ install -m 755 wpa_supplicant %{buildroot}/%{_sbindir}
 install -m 755 wpa_cli %{buildroot}/%{_sbindir}
 install -m 755 wpa_passphrase %{buildroot}/%{_sbindir}
 install -m 755 eapol_test %{buildroot}%{_sbindir}
-
-# gui
-install -d %{buildroot}%{_bindir}
-install -m 755 wpa_gui-qt4/wpa_gui %{buildroot}%{_bindir}
 
 # config
 install -d -m 755 %{buildroot}%{_sysconfdir}/%{name}
@@ -166,6 +144,3 @@ popd
 %{_datadir}/dbus-1/system-services/fi.w1.wpa_supplicant1.service
 %{_mandir}/man8/*
 %{_mandir}/man5/*
-
-%files gui
-%{_bindir}/wpa_gui
