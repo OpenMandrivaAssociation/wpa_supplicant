@@ -31,6 +31,7 @@ BuildRequires:	doxygen
 BuildRequires:	pkgconfig(libnl-3.0)
 BuildRequires:	readline-devel
 BuildRequires:	libgcrypt-devel
+BuildRequires:	pkgconfig(openssl)
 Requires:	systemd >= 218
 Obsoletes:	wpa_supplicant-gui < 2.4
 # http://ndiswrapper.sourceforge.net/wiki/index.php/WPA
