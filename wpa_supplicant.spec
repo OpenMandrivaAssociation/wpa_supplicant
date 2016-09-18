@@ -1,7 +1,7 @@
 Summary:	Linux WPA Supplicant (IEEE 802.1X, WPA, WPA2, RSN, IEEE 802.11i)
 Name:		wpa_supplicant
 Version:	2.5
-Release:	1
+Release:	2
 # wpa_supplicant itself is dual-licensed under GPLv2 and BSD license, but as we
 # link against GPL libraries, we must use GPLv2 license
 License:	GPLv2
@@ -13,6 +13,7 @@ Patch1:		wpa_supplicant-2.2-omv-defconfig.patch
 # should be safe to just bump MAX_WEP_KEY_LEN to 32
 # http://lists.shmoo.com/pipermail/hostap/2005-October/011787.html
 Patch2:		wpa_supplicant-0.6.3-WEP232.patch
+Patch3:		wpa_supplicant-2.5-openssl-1.1.patch
 Patch5:		wpa_supplicant-1.0-mdv-dbus-service-file-args.patch
 Patch7:		wpa_supplicant-0.7.3-copy-wpa_scan_results_free-for-wpa_priv.patch
 # quiet an annoying and frequent syslog message
