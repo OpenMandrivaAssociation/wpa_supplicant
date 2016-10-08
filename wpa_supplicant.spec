@@ -1,3 +1,4 @@
+%define _disable_lto 1
 %define _disable_ld_no_undefined 1
 
 Summary:	Linux WPA Supplicant (IEEE 802.1X, WPA, WPA2, RSN, IEEE 802.11i)
