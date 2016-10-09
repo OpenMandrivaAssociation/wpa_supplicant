@@ -1,6 +1,9 @@
+%define _disable_lto 1
+%define _disable_ld_no_undefined 1
+
 Summary:	Linux WPA Supplicant (IEEE 802.1X, WPA, WPA2, RSN, IEEE 802.11i)
 Name:		wpa_supplicant
-Version:	2.5
+Version:	2.6
 Release:	1
 # wpa_supplicant itself is dual-licensed under GPLv2 and BSD license, but as we
 # link against GPL libraries, we must use GPLv2 license
@@ -13,6 +16,8 @@ Patch1:		wpa_supplicant-2.2-omv-defconfig.patch
 # should be safe to just bump MAX_WEP_KEY_LEN to 32
 # http://lists.shmoo.com/pipermail/hostap/2005-October/011787.html
 Patch2:		wpa_supplicant-0.6.3-WEP232.patch
+#(tpg) not needed ?
+#Patch3:		wpa_supplicant-2.5-openssl-1.1.patch
 Patch5:		wpa_supplicant-1.0-mdv-dbus-service-file-args.patch
 Patch7:		wpa_supplicant-0.7.3-copy-wpa_scan_results_free-for-wpa_priv.patch
 # quiet an annoying and frequent syslog message
@@ -22,7 +27,8 @@ Patch8:		wpa_supplicant-2.2-quiet-scan-results-message.patch
 #Patch9:		wpa_supplicant-squelch-driver-disconnect-spam.patch
 # works around busted drivers by increasing association timeout
 Patch10:	wpa_supplicant-assoc-timeout.patch
-Patch11:	wpa_supplicant-0.7.3-fix-wpa_priv-eloop_signal_handler-casting.patch
+# (tpg) this is not needed, right ?
+#Patch11:	wpa_supplicant-0.7.3-fix-wpa_priv-eloop_signal_handler-casting.patch
 Patch13:	wpa_supplicant-1.0-do-not-call-dbus-functions-with-NULL-path.patch
 BuildRequires:	pkgconfig(dbus-1)
 BuildRequires:	pkgconfig(gnutls) >= 3.0
@@ -127,7 +133,7 @@ install -m 644 doc/docbook/*.5 %{buildroot}%{_mandir}/man5
 popd
 
 %files
-%doc wpa_supplicant/ChangeLog wpa_supplicant/README wpa_supplicant/eap_testing.txt wpa_supplicant/todo.txt
+%doc wpa_supplicant/README wpa_supplicant/eap_testing.txt wpa_supplicant/todo.txt
 %doc wpa_supplicant/README-WPS
 %doc wpa_supplicant/examples/*.conf
 %attr(0600,root,daemon) %config(noreplace) %{_sysconfdir}/%{name}/wpa_supplicant.conf
