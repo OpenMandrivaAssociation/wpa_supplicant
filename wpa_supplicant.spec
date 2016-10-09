@@ -89,7 +89,7 @@ export LIBDIR=%{_libdir}
 
 
 pushd wpa_supplicant
-%make
+%make V=1
 %make eapol_test
 popd
 
