@@ -1,6 +1,6 @@
 diff -Naur wpa_supplicant-2.6/wpa_supplicant/defconfig wpa_supplicant-2.6.tpg/wpa_supplicant/defconfig
 --- wpa_supplicant-2.6/wpa_supplicant/defconfig	2016-10-02 18:51:11.000000000 +0000
-+++ wpa_supplicant-2.6.tpg/wpa_supplicant/defconfig	2016-10-08 22:06:44.902175670 +0000
++++ wpa_supplicant-2.6.tpg/wpa_supplicant/defconfig	2016-10-09 08:54:47.845483228 +0000
 @@ -44,7 +44,7 @@
  #CONFIG_LIBNL20=y
  
@@ -153,15 +153,6 @@ diff -Naur wpa_supplicant-2.6/wpa_supplicant/defconfig wpa_supplicant-2.6.tpg/wp
  
  # Add support for loading EAP methods dynamically as shared libraries.
  # When this option is enabled, each EAP method can be either included
-@@ -377,7 +377,7 @@
- #CONFIG_DEBUG_FILE=y
- 
- # Send debug messages to syslog instead of stdout
--#CONFIG_DEBUG_SYSLOG=y
-+CONFIG_DEBUG_SYSLOG=y
- # Set syslog facility for debug messages
- #CONFIG_DEBUG_SYSLOG_FACILITY=LOG_DAEMON
- 
 @@ -396,7 +396,7 @@
  
  # Enable mitigation against certain attacks against TKIP by delaying Michael
