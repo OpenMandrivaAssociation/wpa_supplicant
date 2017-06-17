@@ -117,15 +117,6 @@ diff -Naur wpa_supplicant-2.6/wpa_supplicant/defconfig wpa_supplicant-2.6.tpg/wp
  
  # Include internal line edit mode in wpa_cli. This can be used as a replacement
  # for GNU Readline to provide limited command line editing and history support.
-@@ -213,7 +213,7 @@
- # This can be used to reduce the size of the wpa_supplicant considerably
- # if debugging code is not needed. The size reduction can be around 35%
- # (e.g., 90 kB).
--#CONFIG_NO_STDOUT_DEBUG=y
-+CONFIG_NO_STDOUT_DEBUG=y
- 
- # Remove WPA support, e.g., for wired-only IEEE 802.1X supplicant, to save
- # 35-50 kB in code size.
 @@ -293,7 +293,7 @@
  
  # IEEE 802.11w (management frame protection), also known as PMF
