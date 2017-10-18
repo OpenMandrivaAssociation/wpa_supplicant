@@ -4,7 +4,7 @@
 Summary:	Linux WPA Supplicant (IEEE 802.1X, WPA, WPA2, RSN, IEEE 802.11i)
 Name:		wpa_supplicant
 Version:	2.6
-Release:	2
+Release:	3
 # wpa_supplicant itself is dual-licensed under GPLv2 and BSD license, but as we
 # link against GPL libraries, we must use GPLv2 license
 License:	GPLv2
@@ -30,6 +30,15 @@ Patch10:	wpa_supplicant-assoc-timeout.patch
 # (tpg) this is not needed, right ?
 #Patch11:	wpa_supplicant-0.7.3-fix-wpa_priv-eloop_signal_handler-casting.patch
 Patch13:	wpa_supplicant-1.0-do-not-call-dbus-functions-with-NULL-path.patch
+Patch14:	0001-hostapd-Avoid-key-reinstallation-in-FT-handshake.patch
+Patch15:	0002-Prevent-reinstallation-of-an-already-in-use-group-ke.patch
+Patch16:	0003-Extend-protection-of-GTK-IGTK-reinstallation-of-WNM-.patch
+Patch17:	0004-Prevent-installation-of-an-all-zero-TK.patch
+Patch18:	0005-Fix-PTK-rekeying-to-generate-a-new-ANonce.patch
+Patch19:	0006-TDLS-Reject-TPK-TK-reconfiguration.patch
+Patch20:	0007-WNM-Ignore-WNM-Sleep-Mode-Response-without-pending-r.patch
+Patch21:	0008-FT-Do-not-allow-multiple-Reassociation-Response-fram.patch
+
 BuildRequires:	pkgconfig(dbus-1)
 BuildRequires:	pkgconfig(gnutls) >= 3.0
 BuildRequires:	pkgconfig(libpcsclite)
