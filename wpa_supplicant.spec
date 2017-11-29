@@ -1,7 +1,7 @@
 Summary:	Linux WPA Supplicant (IEEE 802.1X, WPA, WPA2, RSN, IEEE 802.11i)
 Name:		wpa_supplicant
-Version:	2.2
-Release:	3
+Version:	2.6
+Release:	1
 # wpa_supplicant itself is dual-licensed under GPLv2 and BSD license, but as we
 # link against GPL libraries, we must use GPLv2 license
 License:	GPLv2
@@ -11,7 +11,7 @@ Source0:	http://hostap.epitest.fi/releases/wpa_supplicant-%{version}.tar.gz
 Source3:	%{name}.service
 Source4:	%{name}.sysconfig
 Source6:	%{name}.logrotate
-Patch1:		wpa_supplicant-2.2-omv-defconfig.patch
+Patch1:		wpa_supplicant-2.6-omv-2014-defconfig.patch
 # should be safe to just bump MAX_WEP_KEY_LEN to 32
 # http://lists.shmoo.com/pipermail/hostap/2005-October/011787.html
 Patch2:		wpa_supplicant-0.6.3-WEP232.patch
@@ -29,7 +29,15 @@ Patch13:	wpa_supplicant-1.0-do-not-call-dbus-functions-with-NULL-path.patch
 #Patch14:	wpa_supplicant-1.0-wpagui-gcc47.patch
 #Patch from Fedora
 Patch16:	wpa_supplicant-2.2-gui-qt4.patch
-Patch17:	wpa_supplicant-2.2-libnl3.patch
+#Patch17:	wpa_supplicant-2.2-libnl3.patch
+Patch18:	0001-hostapd-Avoid-key-reinstallation-in-FT-handshake.patch
+Patch19:	0002-Prevent-reinstallation-of-an-already-in-use-group-ke.patch
+Patch20:	0003-Extend-protection-of-GTK-IGTK-reinstallation-of-WNM-.patch
+Patch21:	0004-Prevent-installation-of-an-all-zero-TK.patch
+Patch22:	0005-Fix-PTK-rekeying-to-generate-a-new-ANonce.patch
+Patch23:	0006-TDLS-Reject-TPK-TK-reconfiguration.patch
+Patch24:	0007-WNM-Ignore-WNM-Sleep-Mode-Response-without-pending-r.patch
+Patch25:	0008-FT-Do-not-allow-multiple-Reassociation-Response-fram.patch
 Requires(post,postun,preun):	rpm-helper
 BuildRequires:	pkgconfig(dbus-1)
 BuildRequires:	pkgconfig(gnutls) >= 3.0
