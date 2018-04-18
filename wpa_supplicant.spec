@@ -1,10 +1,13 @@
 %define _disable_lto 1
 %define _disable_ld_no_undefined 1
 
+# (tpg) optimize it a bit
+%global optflags %{optflags} -O3
+
 Summary:	Linux WPA Supplicant (IEEE 802.1X, WPA, WPA2, RSN, IEEE 802.11i)
 Name:		wpa_supplicant
 Version:	2.6
-Release:	4
+Release:	5
 # wpa_supplicant itself is dual-licensed under GPLv2 and BSD license, but as we
 # link against GPL libraries, we must use GPLv2 license
 License:	GPLv2
@@ -80,11 +83,11 @@ drivers and interoperability testing.
 %setup -q
 %apply_patches
 
-pushd wpa_supplicant
+cd wpa_supplicant
 # (blino) comment all "network = { }" blocks
 perl -pi -e '$_ = "# $_" if /^\s*network\s*=\s*{/ .. /^\s*}/' wpa_supplicant.conf
 cp defconfig .config
-popd
+cd -
 
 export CC=%{__cc}
 export CXX=%{__cxx}
@@ -97,10 +100,10 @@ export BINDIR=%{_sbindir}
 export LIBDIR=%{_libdir}
 
 
-pushd wpa_supplicant
+cd wpa_supplicant
 %make
 %make eapol_test
-popd
+cd -
 
 %install
 mkdir -p %{buildroot}%{_sbindir}
@@ -111,7 +114,7 @@ install -d %{buildroot}%{_systemunitdir}/
 install -m0644 %{name}/systemd/*.service -D %{buildroot}%{_systemunitdir}/
 install -m0644 %{SOURCE7} -D %{buildroot}%{_tmpfilesdir}/%{name}.conf
 
-pushd wpa_supplicant
+cd wpa_supplicant
 
 # binaries
 install -d %{buildroot}%{_sbindir}
@@ -139,7 +142,7 @@ install -d -m 755 %{buildroot}%{_mandir}/man{5,8}
 install -m 644 doc/docbook/*.8 %{buildroot}%{_mandir}/man8
 install -m 644 doc/docbook/*.5 %{buildroot}%{_mandir}/man5
 
-popd
+cd -
 
 %files
 %doc wpa_supplicant/README wpa_supplicant/eap_testing.txt wpa_supplicant/todo.txt
