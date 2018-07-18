@@ -7,7 +7,7 @@
 Summary:	Linux WPA Supplicant (IEEE 802.1X, WPA, WPA2, RSN, IEEE 802.11i)
 Name:		wpa_supplicant
 Version:	2.6
-Release:	5
+Release:	6
 # wpa_supplicant itself is dual-licensed under GPLv2 and BSD license, but as we
 # link against GPL libraries, we must use GPLv2 license
 License:	GPLv2
@@ -50,6 +50,7 @@ BuildRequires:	pkgconfig(libnl-3.0)
 BuildRequires:	readline-devel
 BuildRequires:	libgcrypt-devel
 BuildRequires:	pkgconfig(openssl)
+BuildRequires:	systemd-macros >= 229
 Requires:	systemd >= 218
 Obsoletes:	wpa_supplicant-gui < 2.4
 # http://ndiswrapper.sourceforge.net/wiki/index.php/WPA
