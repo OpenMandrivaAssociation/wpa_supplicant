@@ -111,8 +111,8 @@ mkdir -p %{buildroot}%{_sbindir}
 mkdir -p %{buildroot}%{_sysconfdir}/dbus-1/system.d/
 mkdir -p %{buildroot}%{_datadir}/dbus-1/system-services/
 
-install -d %{buildroot}%{_systemunitdir}/
-install -m0644 %{name}/systemd/*.service -D %{buildroot}%{_systemunitdir}/
+install -d %{buildroot}%{_unitdir}/
+install -m0644 %{name}/systemd/*.service -D %{buildroot}%{_unitdir}/
 install -m0644 %{SOURCE7} -D %{buildroot}%{_tmpfilesdir}/%{name}.conf
 
 cd wpa_supplicant
@@ -150,10 +150,10 @@ cd -
 %doc wpa_supplicant/README-WPS
 %doc wpa_supplicant/examples/*.conf
 %attr(0600,root,daemon) %config(noreplace) %{_sysconfdir}/%{name}/wpa_supplicant.conf
-%{_systemunitdir}/%{name}.service
-%{_systemunitdir}/%{name}-nl80211@.service
-%{_systemunitdir}/%{name}-wired@.service
-%{_systemunitdir}/%{name}@.service
+%{_unitdir}/%{name}.service
+%{_unitdir}/%{name}-nl80211@.service
+%{_unitdir}/%{name}-wired@.service
+%{_unitdir}/%{name}@.service
 %{_tmpfilesdir}/%{name}.conf
 %{_sbindir}/wpa_cli
 %{_sbindir}/wpa_passphrase
