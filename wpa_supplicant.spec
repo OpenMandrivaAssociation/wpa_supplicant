@@ -1,13 +1,10 @@
 %define _disable_lto 1
 %define _disable_ld_no_undefined 1
 
-# (tpg) optimize it a bit
-%global optflags %{optflags} -O3
-
 Summary:	Linux WPA Supplicant (IEEE 802.1X, WPA, WPA2, RSN, IEEE 802.11i)
 Name:		wpa_supplicant
-Version:	2.6
-Release:	7
+Version:	2.7
+Release:	1
 # wpa_supplicant itself is dual-licensed under GPLv2 and BSD license, but as we
 # link against GPL libraries, we must use GPLv2 license
 License:	GPLv2
@@ -15,32 +12,12 @@ Group:		Communications
 URL:		http://hostap.epitest.fi/wpa_supplicant/
 Source0:	http://hostap.epitest.fi/releases/wpa_supplicant-%{version}.tar.gz
 Source7:	%{name}.tmpfiles
+Patch0:		wpa_supplicant-2.7-fix-undefined-remove-ie.patch
 Patch1:		wpa_supplicant-2.2-omv-defconfig.patch
-# should be safe to just bump MAX_WEP_KEY_LEN to 32
-# http://lists.shmoo.com/pipermail/hostap/2005-October/011787.html
-Patch2:		wpa_supplicant-0.6.3-WEP232.patch
-#(tpg) not needed ?
-#Patch3:		wpa_supplicant-2.5-openssl-1.1.patch
-Patch5:		wpa_supplicant-1.0-mdv-dbus-service-file-args.patch
-Patch7:		wpa_supplicant-0.7.3-copy-wpa_scan_results_free-for-wpa_priv.patch
+Patch2:		wpa_supplicant-1.0-mga-dbus-service-file-args.patch
+# fedora patches
 # quiet an annoying and frequent syslog message
-Patch8:		wpa_supplicant-2.2-quiet-scan-results-message.patch
-# recover from streams of driver disconnect messages (iwl3945)
-# rediff ?
-#Patch9:		wpa_supplicant-squelch-driver-disconnect-spam.patch
-# works around busted drivers by increasing association timeout
-Patch10:	wpa_supplicant-assoc-timeout.patch
-# (tpg) this is not needed, right ?
-#Patch11:	wpa_supplicant-0.7.3-fix-wpa_priv-eloop_signal_handler-casting.patch
-Patch13:	wpa_supplicant-1.0-do-not-call-dbus-functions-with-NULL-path.patch
-Patch14:	0001-hostapd-Avoid-key-reinstallation-in-FT-handshake.patch
-Patch15:	0002-Prevent-reinstallation-of-an-already-in-use-group-ke.patch
-Patch16:	0003-Extend-protection-of-GTK-IGTK-reinstallation-of-WNM-.patch
-Patch17:	0004-Prevent-installation-of-an-all-zero-TK.patch
-Patch18:	0005-Fix-PTK-rekeying-to-generate-a-new-ANonce.patch
-Patch19:	0006-TDLS-Reject-TPK-TK-reconfiguration.patch
-Patch20:	0007-WNM-Ignore-WNM-Sleep-Mode-Response-without-pending-r.patch
-Patch21:	0008-FT-Do-not-allow-multiple-Reassociation-Response-fram.patch
+Patch3:		wpa_supplicant-2.2-quiet-scan-results-message.patch
 
 BuildRequires:	pkgconfig(dbus-1)
 BuildRequires:	pkgconfig(gnutls) >= 3.0
@@ -48,12 +25,10 @@ BuildRequires:	pkgconfig(libpcsclite)
 BuildRequires:	doxygen
 BuildRequires:	pkgconfig(libnl-3.0)
 BuildRequires:	readline-devel
-BuildRequires:	libgcrypt-devel
 BuildRequires:	pkgconfig(openssl)
 BuildRequires:	systemd-macros >= 229
 Requires:	systemd >= 218
 Obsoletes:	wpa_supplicant-gui < 2.4
-# http://ndiswrapper.sourceforge.net/wiki/index.php/WPA
 
 %description
 wpa_supplicant is a WPA Supplicant for Linux, BSD and Windows with
@@ -81,8 +56,7 @@ list of supported EAP methods (IEEE 802.1X Supplicant), supported
 drivers and interoperability testing.
 
 %prep
-%setup -q
-%apply_patches
+%autosetup -p1
 
 cd wpa_supplicant
 # (blino) comment all "network = { }" blocks
@@ -102,8 +76,8 @@ export LIBDIR=%{_libdir}
 
 
 cd wpa_supplicant
-%make
-%make eapol_test
+%make_build
+%make_build eapol_test
 cd -
 
 %install

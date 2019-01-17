@@ -1,0 +1,20 @@
+diff -Naur -x '*~' wpa_supplicant-1.0/wpa_supplicant/dbus/fi.epitest.hostap.WPASupplicant.service.in wpa_supplicant-1.0-mga-dbus-service-file-args/wpa_supplicant/dbus/fi.epitest.hostap.WPASupplicant.service.in
+--- wpa_supplicant-1.0/wpa_supplicant/dbus/fi.epitest.hostap.WPASupplicant.service.in	2012-05-09 23:56:09.000000000 +0200
++++ wpa_supplicant-1.0-mga-dbus-service-file-args/wpa_supplicant/dbus/fi.epitest.hostap.WPASupplicant.service.in	2012-08-09 17:02:52.586835715 +0200
+@@ -1,5 +1,5 @@
+ [D-BUS Service]
+ Name=fi.epitest.hostap.WPASupplicant
+-Exec=@BINDIR@/wpa_supplicant -u
++Exec=@BINDIR@/wpa_supplicant -u -c /etc/wpa_supplicant.conf -P /run/wpa_supplicant.pid
+ User=root
+ SystemdService=wpa_supplicant.service
+diff -Naur -x '*~' wpa_supplicant-1.0/wpa_supplicant/dbus/fi.w1.wpa_supplicant1.service.in wpa_supplicant-1.0-mga-dbus-service-file-args/wpa_supplicant/dbus/fi.w1.wpa_supplicant1.service.in
+--- wpa_supplicant-1.0/wpa_supplicant/dbus/fi.w1.wpa_supplicant1.service.in	2012-05-09 23:56:09.000000000 +0200
++++ wpa_supplicant-1.0-mga-dbus-service-file-args/wpa_supplicant/dbus/fi.w1.wpa_supplicant1.service.in	2012-08-09 17:03:13.234682750 +0200
+@@ -1,5 +1,5 @@
+ [D-BUS Service]
+ Name=fi.w1.wpa_supplicant1
+-Exec=@BINDIR@/wpa_supplicant -u
++Exec=@BINDIR@/wpa_supplicant -u -c /etc/wpa_supplicant.conf -P /run/wpa_supplicant.pid
+ User=root
+ SystemdService=wpa_supplicant.service

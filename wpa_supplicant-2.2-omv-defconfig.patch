@@ -1,17 +1,7 @@
-diff -Naur wpa_supplicant-2.6/wpa_supplicant/defconfig wpa_supplicant-2.6.tpg/wpa_supplicant/defconfig
---- wpa_supplicant-2.6/wpa_supplicant/defconfig	2016-10-02 18:51:11.000000000 +0000
-+++ wpa_supplicant-2.6.tpg/wpa_supplicant/defconfig	2016-10-09 08:54:47.845483228 +0000
-@@ -44,7 +44,7 @@
- #CONFIG_LIBNL20=y
- 
- # Use libnl 3.2 libraries (if this is selected, CONFIG_LIBNL20 is ignored)
--#CONFIG_LIBNL32=y
-+CONFIG_LIBNL32=y
- 
- 
- # Driver interface for FreeBSD net80211 layer (e.g., Atheros driver)
-@@ -74,10 +74,10 @@
- CONFIG_DRIVER_WIRED=y
+--- wpa_supplicant-2.7/wpa_supplicant/defconfig.orig	2018-12-29 21:44:42.294838609 -0500
++++ wpa_supplicant-2.7/wpa_supplicant/defconfig	2018-12-29 22:17:26.895613720 -0500
+@@ -80,10 +80,10 @@ CONFIG_DRIVER_WIRED=y
+ #CONFIG_DRIVER_MACSEC_LINUX=y
  
  # Driver interface for the Broadcom RoboSwitch family
 -#CONFIG_DRIVER_ROBOSWITCH=y
@@ -23,7 +13,7 @@ diff -Naur wpa_supplicant-2.6/wpa_supplicant/defconfig wpa_supplicant-2.6.tpg/wp
  
  # Solaris libraries
  #LIBS += -lsocket -ldlpi -lnsl
-@@ -106,7 +106,7 @@
+@@ -112,7 +112,7 @@ CONFIG_EAP_TTLS=y
  # Note: If OpenSSL is used as the TLS library, OpenSSL 1.0 or newer is needed
  # for EAP-FAST support. Older OpenSSL releases would need to be patched, e.g.,
  # with openssl-0.9.8x-tls-extensions.patch, to add the needed functions.
@@ -32,7 +22,7 @@ diff -Naur wpa_supplicant-2.6/wpa_supplicant/defconfig wpa_supplicant-2.6.tpg/wp
  
  # EAP-GTC
  CONFIG_EAP_GTC=y
-@@ -115,45 +115,45 @@
+@@ -121,43 +121,43 @@ CONFIG_EAP_GTC=y
  CONFIG_EAP_OTP=y
  
  # EAP-SIM (enable CONFIG_PCSC, if EAP-SIM is used)
@@ -85,12 +75,9 @@ diff -Naur wpa_supplicant-2.6/wpa_supplicant/defconfig wpa_supplicant-2.6.tpg/wp
 -#CONFIG_WPS=y
 +CONFIG_WPS=y
  # Enable WPS external registrar functionality
--#CONFIG_WPS_ER=y
-+CONFIG_WPS_ER=y
+ #CONFIG_WPS_ER=y
  # Disable credentials for an open network by default when acting as a WPS
- # registrar.
- #CONFIG_WPS_REG_DISABLE_OPEN=y
-@@ -161,7 +161,7 @@
+@@ -167,7 +167,7 @@ CONFIG_EAP_LEAP=y
  #CONFIG_WPS_NFC=y
  
  # EAP-IKEv2
@@ -99,7 +86,7 @@ diff -Naur wpa_supplicant-2.6/wpa_supplicant/defconfig wpa_supplicant-2.6.tpg/wp
  
  # EAP-EKE
  #CONFIG_EAP_EKE=y
-@@ -176,7 +176,7 @@
+@@ -185,7 +185,7 @@ CONFIG_SMARTCARD=y
  
  # PC/SC interface for smartcards (USIM, GSM SIM)
  # Enable this if EAP-SIM or EAP-AKA is included
@@ -108,7 +95,7 @@ diff -Naur wpa_supplicant-2.6/wpa_supplicant/defconfig wpa_supplicant-2.6.tpg/wp
  
  # Support HT overrides (disable HT/HT40, mask MCS rates, etc.)
  #CONFIG_HT_OVERRIDES=y
-@@ -203,7 +203,7 @@
+@@ -212,7 +212,7 @@ CONFIG_CTRL_IFACE=y
  # When building a wpa_cli binary for distribution, please note that these
  # libraries are licensed under GPL and as such, BSD license may not apply for
  # the resulting binary.
@@ -117,7 +104,7 @@ diff -Naur wpa_supplicant-2.6/wpa_supplicant/defconfig wpa_supplicant-2.6.tpg/wp
  
  # Include internal line edit mode in wpa_cli. This can be used as a replacement
  # for GNU Readline to provide limited command line editing and history support.
-@@ -293,7 +293,7 @@
+@@ -299,7 +299,7 @@ CONFIG_BACKEND=file
  
  # IEEE 802.11w (management frame protection), also known as PMF
  # Driver support is also needed for IEEE 802.11w.
@@ -126,7 +113,7 @@ diff -Naur wpa_supplicant-2.6/wpa_supplicant/defconfig wpa_supplicant-2.6.tpg/wp
  
  # Select TLS implementation
  # openssl = OpenSSL (default)
-@@ -340,14 +340,14 @@
+@@ -351,14 +351,14 @@ CONFIG_BACKEND=file
  
  # Add support for old DBus control interface
  # (fi.epitest.hostap.WPASupplicant)
@@ -144,7 +131,20 @@ diff -Naur wpa_supplicant-2.6/wpa_supplicant/defconfig wpa_supplicant-2.6.tpg/wp
  
  # Add support for loading EAP methods dynamically as shared libraries.
  # When this option is enabled, each EAP method can be either included
-@@ -396,7 +396,7 @@
+@@ -382,10 +382,10 @@ CONFIG_BACKEND=file
+ #CONFIG_DYNAMIC_EAP_METHODS=y
+ 
+ # IEEE Std 802.11r-2008 (Fast BSS Transition) for station mode
+-#CONFIG_IEEE80211R=y
++CONFIG_IEEE80211R=y
+ 
+ # Add support for writing debug log to a file (/tmp/wpa_supplicant-log-#.txt)
+-#CONFIG_DEBUG_FILE=y
++CONFIG_DEBUG_FILE=y
+ 
+ # Send debug messages to syslog instead of stdout
+ #CONFIG_DEBUG_SYSLOG=y
+@@ -407,7 +407,7 @@ CONFIG_BACKEND=file
  
  # Enable mitigation against certain attacks against TKIP by delaying Michael
  # MIC error reports by a random amount of time between 0 and 60 seconds
@@ -153,54 +153,3 @@ diff -Naur wpa_supplicant-2.6/wpa_supplicant/defconfig wpa_supplicant-2.6.tpg/wp
  
  # Enable tracing code for developer debugging
  # This tracks use of memory allocations and other registrations and reports
-@@ -448,11 +448,11 @@
- #CONFIG_NO_RANDOM_POOL=y
- 
- # IEEE 802.11n (High Throughput) support (mainly for AP mode)
--#CONFIG_IEEE80211N=y
-+CONFIG_IEEE80211N=y
- 
- # IEEE 802.11ac (Very High Throughput) support (mainly for AP mode)
- # (depends on CONFIG_IEEE80211N)
--#CONFIG_IEEE80211AC=y
-+CONFIG_IEEE80211AC=y
- 
- # Wireless Network Management (IEEE Std 802.11v-2011)
- # Note: This is experimental and not complete implementation.
-@@ -462,10 +462,10 @@
- # This can be used to enable functionality to improve interworking with
- # external networks (GAS/ANQP to learn more about the networks and network
- # selection based on available credentials).
--#CONFIG_INTERWORKING=y
-+CONFIG_INTERWORKING=y
- 
- # Hotspot 2.0
--#CONFIG_HS20=y
-+CONFIG_HS20=y
- 
- # Enable interface matching in wpa_supplicant
- #CONFIG_MATCH_IFACE=y
-@@ -478,12 +478,12 @@
- # should be noted that this is mainly aimed at simple cases like
- # WPA2-Personal while more complex configurations like WPA2-Enterprise with an
- # external RADIUS server can be supported with hostapd.
--#CONFIG_AP=y
-+CONFIG_AP=y
- 
- # P2P (Wi-Fi Direct)
- # This can be used to enable P2P support in wpa_supplicant. See README-P2P for
- # more information on P2P operations.
--#CONFIG_P2P=y
-+CONFIG_P2P=y
- 
- # Enable TDLS support
- #CONFIG_TDLS=y
-@@ -491,7 +491,7 @@
- # Wi-Fi Direct
- # This can be used to enable Wi-Fi Direct extensions for P2P using an external
- # program to control the additional information exchanges in the messages.
--#CONFIG_WIFI_DISPLAY=y
-+CONFIG_WIFI_DISPLAY=y
- 
- # Autoscan
- # This can be used to enable automatic scan support in wpa_supplicant.
