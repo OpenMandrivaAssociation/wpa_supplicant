@@ -4,7 +4,7 @@
 Summary:	Linux WPA Supplicant (IEEE 802.1X, WPA, WPA2, RSN, IEEE 802.11i)
 Name:		wpa_supplicant
 Version:	2.7
-Release:	1
+Release:	0.1
 # wpa_supplicant itself is dual-licensed under GPLv2 and BSD license, but as we
 # link against GPL libraries, we must use GPLv2 license
 License:	GPLv2
@@ -26,7 +26,7 @@ BuildRequires:	doxygen
 BuildRequires:	pkgconfig(libnl-3.0)
 BuildRequires:	readline-devel
 BuildRequires:	pkgconfig(openssl)
-BuildRequires:	systemd-macros >= 229
+BuildRequires:	pkgconfig(libsystemd)
 Requires:	systemd >= 218
 Obsoletes:	wpa_supplicant-gui < 2.4
 
@@ -56,7 +56,8 @@ list of supported EAP methods (IEEE 802.1X Supplicant), supported
 drivers and interoperability testing.
 
 %prep
-%autosetup -p1
+%setup -1
+%apply_patches
 
 cd wpa_supplicant
 # (blino) comment all "network = { }" blocks
@@ -76,8 +77,8 @@ export LIBDIR=%{_libdir}
 
 
 cd wpa_supplicant
-%make_build
-%make_build eapol_test
+%make
+%make eapol_test
 cd -
 
 %install
