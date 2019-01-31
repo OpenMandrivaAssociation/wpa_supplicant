@@ -56,7 +56,7 @@ list of supported EAP methods (IEEE 802.1X Supplicant), supported
 drivers and interoperability testing.
 
 %prep
-%setup -1
+%setup -q
 %apply_patches
 
 cd wpa_supplicant
