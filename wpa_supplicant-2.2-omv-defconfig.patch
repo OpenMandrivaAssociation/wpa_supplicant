@@ -1,5 +1,7 @@
---- wpa_supplicant-2.7/wpa_supplicant/defconfig.orig	2018-12-29 21:44:42.294838609 -0500
-+++ wpa_supplicant-2.7/wpa_supplicant/defconfig	2018-12-29 22:17:26.895613720 -0500
+diff --git a/wpa_supplicant/defconfig b/wpa_supplicant/defconfig
+index 88cd790..632ffe8 100644
+--- a/wpa_supplicant/defconfig
++++ b/wpa_supplicant/defconfig
 @@ -80,10 +80,10 @@ CONFIG_DRIVER_WIRED=y
  #CONFIG_DRIVER_MACSEC_LINUX=y
  
@@ -13,80 +15,7 @@
  
  # Solaris libraries
  #LIBS += -lsocket -ldlpi -lnsl
-@@ -112,7 +112,7 @@ CONFIG_EAP_TTLS=y
- # Note: If OpenSSL is used as the TLS library, OpenSSL 1.0 or newer is needed
- # for EAP-FAST support. Older OpenSSL releases would need to be patched, e.g.,
- # with openssl-0.9.8x-tls-extensions.patch, to add the needed functions.
--#CONFIG_EAP_FAST=y
-+CONFIG_EAP_FAST=y
- 
- # EAP-GTC
- CONFIG_EAP_GTC=y
-@@ -121,43 +121,43 @@ CONFIG_EAP_GTC=y
- CONFIG_EAP_OTP=y
- 
- # EAP-SIM (enable CONFIG_PCSC, if EAP-SIM is used)
--#CONFIG_EAP_SIM=y
-+CONFIG_EAP_SIM=y
- 
- # EAP-PSK (experimental; this is _not_ needed for WPA-PSK)
--#CONFIG_EAP_PSK=y
-+CONFIG_EAP_PSK=y
- 
- # EAP-pwd (secure authentication using only a password)
- #CONFIG_EAP_PWD=y
- 
- # EAP-PAX
--#CONFIG_EAP_PAX=y
-+CONFIG_EAP_PAX=y
- 
- # LEAP
- CONFIG_EAP_LEAP=y
- 
- # EAP-AKA (enable CONFIG_PCSC, if EAP-AKA is used)
--#CONFIG_EAP_AKA=y
-+CONFIG_EAP_AKA=y
- 
- # EAP-AKA' (enable CONFIG_PCSC, if EAP-AKA' is used).
- # This requires CONFIG_EAP_AKA to be enabled, too.
--#CONFIG_EAP_AKA_PRIME=y
-+CONFIG_EAP_AKA_PRIME=y
- 
- # Enable USIM simulator (Milenage) for EAP-AKA
--#CONFIG_USIM_SIMULATOR=y
-+CONFIG_USIM_SIMULATOR=y
- 
- # EAP-SAKE
--#CONFIG_EAP_SAKE=y
-+CONFIG_EAP_SAKE=y
- 
- # EAP-GPSK
--#CONFIG_EAP_GPSK=y
-+CONFIG_EAP_GPSK=y
- # Include support for optional SHA256 cipher suite in EAP-GPSK
--#CONFIG_EAP_GPSK_SHA256=y
-+CONFIG_EAP_GPSK_SHA256=y
- 
- # EAP-TNC and related Trusted Network Connect support (experimental)
--#CONFIG_EAP_TNC=y
-+CONFIG_EAP_TNC=y
- 
- # Wi-Fi Protected Setup (WPS)
--#CONFIG_WPS=y
-+CONFIG_WPS=y
- # Enable WPS external registrar functionality
- #CONFIG_WPS_ER=y
- # Disable credentials for an open network by default when acting as a WPS
-@@ -167,7 +167,7 @@ CONFIG_EAP_LEAP=y
- #CONFIG_WPS_NFC=y
- 
- # EAP-IKEv2
--#CONFIG_EAP_IKEV2=y
-+CONFIG_EAP_IKEV2=y
- 
- # EAP-EKE
- #CONFIG_EAP_EKE=y
-@@ -185,7 +185,7 @@ CONFIG_SMARTCARD=y
+@@ -182,7 +182,7 @@ CONFIG_SMARTCARD=y
  
  # PC/SC interface for smartcards (USIM, GSM SIM)
  # Enable this if EAP-SIM or EAP-AKA is included
@@ -95,7 +24,7 @@
  
  # Support HT overrides (disable HT/HT40, mask MCS rates, etc.)
  #CONFIG_HT_OVERRIDES=y
-@@ -212,7 +212,7 @@ CONFIG_CTRL_IFACE=y
+@@ -209,7 +209,7 @@ CONFIG_CTRL_IFACE=y
  # When building a wpa_cli binary for distribution, please note that these
  # libraries are licensed under GPL and as such, BSD license may not apply for
  # the resulting binary.
@@ -104,47 +33,7 @@
  
  # Include internal line edit mode in wpa_cli. This can be used as a replacement
  # for GNU Readline to provide limited command line editing and history support.
-@@ -299,7 +299,7 @@ CONFIG_BACKEND=file
- 
- # IEEE 802.11w (management frame protection), also known as PMF
- # Driver support is also needed for IEEE 802.11w.
--#CONFIG_IEEE80211W=y
-+CONFIG_IEEE80211W=y
- 
- # Select TLS implementation
- # openssl = OpenSSL (default)
-@@ -351,14 +351,14 @@ CONFIG_BACKEND=file
- 
- # Add support for old DBus control interface
- # (fi.epitest.hostap.WPASupplicant)
--#CONFIG_CTRL_IFACE_DBUS=y
-+CONFIG_CTRL_IFACE_DBUS=y
- 
- # Add support for new DBus control interface
- # (fi.w1.hostap.wpa_supplicant1)
--#CONFIG_CTRL_IFACE_DBUS_NEW=y
-+CONFIG_CTRL_IFACE_DBUS_NEW=y
- 
- # Add introspection support for new DBus control interface
--#CONFIG_CTRL_IFACE_DBUS_INTRO=y
-+CONFIG_CTRL_IFACE_DBUS_INTRO=y
- 
- # Add support for loading EAP methods dynamically as shared libraries.
- # When this option is enabled, each EAP method can be either included
-@@ -382,10 +382,10 @@ CONFIG_BACKEND=file
- #CONFIG_DYNAMIC_EAP_METHODS=y
- 
- # IEEE Std 802.11r-2008 (Fast BSS Transition) for station mode
--#CONFIG_IEEE80211R=y
-+CONFIG_IEEE80211R=y
- 
- # Add support for writing debug log to a file (/tmp/wpa_supplicant-log-#.txt)
--#CONFIG_DEBUG_FILE=y
-+CONFIG_DEBUG_FILE=y
- 
- # Send debug messages to syslog instead of stdout
- #CONFIG_DEBUG_SYSLOG=y
-@@ -407,7 +407,7 @@ CONFIG_BACKEND=file
+@@ -406,7 +406,7 @@ CONFIG_DEBUG_SYSLOG=y
  
  # Enable mitigation against certain attacks against TKIP by delaying Michael
  # MIC error reports by a random amount of time between 0 and 60 seconds

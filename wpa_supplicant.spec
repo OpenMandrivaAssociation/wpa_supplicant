@@ -3,7 +3,7 @@
 
 Summary:	Linux WPA Supplicant (IEEE 802.1X, WPA, WPA2, RSN, IEEE 802.11i)
 Name:		wpa_supplicant
-Version:	2.7
+Version:	2.8
 Release:	1
 # wpa_supplicant itself is dual-licensed under GPLv2 and BSD license, but as we
 # link against GPL libraries, we must use GPLv2 license
@@ -12,12 +12,18 @@ Group:		Communications
 URL:		http://hostap.epitest.fi/wpa_supplicant/
 Source0:	http://hostap.epitest.fi/releases/wpa_supplicant-%{version}.tar.gz
 Source7:	%{name}.tmpfiles
-Patch0:		wpa_supplicant-2.7-fix-undefined-remove-ie.patch
-Patch1:		wpa_supplicant-2.2-omv-defconfig.patch
-Patch2:		wpa_supplicant-1.0-mga-dbus-service-file-args.patch
-# fedora patches
+# works around busted drivers
+Patch0: wpa_supplicant-assoc-timeout.patch
+# ensures that debug output gets flushed immediately to help diagnose driver
+# bugs, not suitable for upstream
+Patch1: wpa_supplicant-flush-debug-output.patch
 # quiet an annoying and frequent syslog message
-Patch3:		wpa_supplicant-2.2-quiet-scan-results-message.patch
+Patch3: wpa_supplicant-quiet-scan-results-message.patch
+# distro specific customization for Qt4 build tools, not suitable for upstream
+Patch6: wpa_supplicant-gui-qt4.patch
+# distro specific customization and not suitable for upstream,
+Patch7:		wpa_supplicant-2.2-omv-defconfig.patch
+
 
 BuildRequires:	pkgconfig(dbus-1)
 BuildRequires:	pkgconfig(gnutls) >= 3.0
@@ -107,8 +113,6 @@ install -d %{buildroot}%{_sysconfdir}/dbus-1/system.d
 install -d %{buildroot}%{_datadir}/dbus-1/system-services
 install -m 644 dbus/dbus-wpa_supplicant.conf \
     %{buildroot}%{_sysconfdir}/dbus-1/system.d/wpa_supplicant.conf
-install -m 644 dbus/fi.epitest.hostap.WPASupplicant.service \
-    %{buildroot}%{_datadir}/dbus-1/system-services
 install -m 0644 dbus/fi.w1.wpa_supplicant1.service \
      %{buildroot}%{_datadir}/dbus-1/system-services
 
@@ -134,7 +138,6 @@ cd -
 %{_sbindir}/wpa_supplicant
 %{_sbindir}/eapol_test
 %{_sysconfdir}/dbus-1/system.d/wpa_supplicant.conf
-%{_datadir}/dbus-1/system-services/fi.epitest.hostap.WPASupplicant.service
 %{_datadir}/dbus-1/system-services/fi.w1.wpa_supplicant1.service
 %{_mandir}/man8/*
 %{_mandir}/man5/*
