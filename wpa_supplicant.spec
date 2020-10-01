@@ -4,7 +4,7 @@
 Summary:	Linux WPA Supplicant (IEEE 802.1X, WPA, WPA2, RSN, IEEE 802.11i)
 Name:		wpa_supplicant
 Version:	2.8
-Release:	1
+Release:	2
 # wpa_supplicant itself is dual-licensed under GPLv2 and BSD license, but as we
 # link against GPL libraries, we must use GPLv2 license
 License:	GPLv2
@@ -73,13 +73,12 @@ cd -
 export CC=%{__cc}
 export CXX=%{__cxx}
 %build
-%setup_compile_flags
+%set_build_flags
 # Fix bug #63030: dereferencing type-punned pointer will break strict-aliasing rules [-Werror=strict-aliasing]
 export CFLAGS+=" -fno-strict-aliasing -Wno-error=deprecated-declarations"
 export CXXFLAGS+=" -fno-strict-aliasing" FFLAGS+=" -fno-strict-aliasing"
 export BINDIR=%{_sbindir}
 export LIBDIR=%{_libdir}
-
 
 cd wpa_supplicant
 %make_build
