@@ -4,7 +4,7 @@
 Summary:	Linux WPA Supplicant (IEEE 802.1X, WPA, WPA2, RSN, IEEE 802.11i)
 Name:		wpa_supplicant
 Version:	2.8
-Release:	2
+Release:	3
 # wpa_supplicant itself is dual-licensed under GPLv2 and BSD license, but as we
 # link against GPL libraries, we must use GPLv2 license
 License:	GPLv2
@@ -23,6 +23,13 @@ Patch3: wpa_supplicant-quiet-scan-results-message.patch
 Patch6: wpa_supplicant-gui-qt4.patch
 # distro specific customization and not suitable for upstream,
 Patch7:		wpa_supplicant-2.2-omv-defconfig.patch
+
+# imported from mga
+# fix nmci failures with OpenSSL-3.0.0
+Patch8: 0001-OpenSSL-Allow-systemwide-secpolicy-overrides-for-TLS.patch
+Patch9: 0001-EAP-TTLS-PEAP-peer-Fix-failure-when-using-session-ti.patch
+Patch10: 0001-openssl-Disable-padding-after-initializing-the-ciphe.patch
+Patch11: 0001-openssl-Remove-deprecated-functions-from-des_encrypt.patch
 
 
 BuildRequires:	pkgconfig(dbus-1)
