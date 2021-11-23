@@ -1,0 +1,109 @@
+From 872609c15110d32ee2d306aeeeffdd4e42ef6fc6 Mon Sep 17 00:00:00 2001
+Message-Id: <872609c15110d32ee2d306aeeeffdd4e42ef6fc6.1627507211.git.davide.caratti@gmail.com>
+From: Alexander Clouter <alex@digriz.org.uk>
+Date: Fri, 16 Oct 2020 09:49:36 +0100
+Subject: [PATCH] EAP-TTLS/PEAP peer: Fix failure when using session tickets
+ under TLS 1.3
+
+EAP peer does not expect data present when beginning the Phase 2 in
+EAP-{TTLS,PEAP} but in TLS 1.3 session tickets are sent after the
+handshake completes.
+
+There are several strategies that can be used to handle this, but this
+patch picks up from the discussion[1] and implements the proposed use of
+SSL_MODE_AUTO_RETRY. SSL_MODE_AUTO_RETRY has already been enabled by
+default in OpenSSL 1.1.1, but it needs to be enabled for older versions.
+
+The main OpenSSL wrapper change in tls_connection_decrypt() takes care
+of the new possible case with SSL_MODE_AUTO_RETRY for
+SSL_ERROR_WANT_READ to indicate that a non-application_data was
+processed. That is not really an error case with TLS 1.3, so allow it to
+complete and return an empty decrypted application data buffer.
+EAP-PEAP/TTLS processing can then use this to move ahead with starting
+Phase 2.
+
+[1] https://www.spinics.net/lists/hostap/msg05376.html
+
+Signed-off-by: Alexander Clouter <alex@digriz.org.uk>
+---
+ src/crypto/tls_openssl.c | 18 ++++++++++++++----
+ src/eap_peer/eap_peap.c  |  4 ++++
+ src/eap_peer/eap_ttls.c  |  5 +++++
+ 3 files changed, 23 insertions(+), 4 deletions(-)
+
+diff --git a/src/crypto/tls_openssl.c b/src/crypto/tls_openssl.c
+index ef872c50e..345a35ee1 100644
+--- a/src/crypto/tls_openssl.c
++++ b/src/crypto/tls_openssl.c
+@@ -1045,6 +1045,8 @@ void * tls_init(const struct tls_config *conf)
+ 	SSL_CTX_set_options(ssl, SSL_OP_NO_SSLv2);
+ 	SSL_CTX_set_options(ssl, SSL_OP_NO_SSLv3);
+ 
++	SSL_CTX_set_mode(ssl, SSL_MODE_AUTO_RETRY);
++
+ #ifdef SSL_MODE_NO_AUTO_CHAIN
+ 	/* Number of deployed use cases assume the default OpenSSL behavior of
+ 	 * auto chaining the local certificate is in use. BoringSSL removed this
+@@ -4543,10 +4545,18 @@ struct wpabuf * tls_connection_decrypt(void *tls_ctx,
+ 		return NULL;
+ 	res = SSL_read(conn->ssl, wpabuf_mhead(buf), wpabuf_size(buf));
+ 	if (res < 0) {
+-		tls_show_errors(MSG_INFO, __func__,
+-				"Decryption failed - SSL_read");
+-		wpabuf_free(buf);
+-		return NULL;
++		int err = SSL_get_error(conn->ssl, res);
++
++		if (err == SSL_ERROR_WANT_READ) {
++			wpa_printf(MSG_DEBUG,
++				   "SSL: SSL_connect - want more data");
++			res = 0;
++		} else {
++			tls_show_errors(MSG_INFO, __func__,
++					"Decryption failed - SSL_read");
++			wpabuf_free(buf);
++			return NULL;
++		}
+ 	}
+ 	wpabuf_put(buf, res);
+ 
+diff --git a/src/eap_peer/eap_peap.c b/src/eap_peer/eap_peap.c
+index 7c3704369..a13428d37 100644
+--- a/src/eap_peer/eap_peap.c
++++ b/src/eap_peer/eap_peap.c
+@@ -803,6 +803,10 @@ static int eap_peap_decrypt(struct eap_sm *sm, struct eap_peap_data *data,
+ 	res = eap_peer_tls_decrypt(sm, &data->ssl, in_data, &in_decrypted);
+ 	if (res)
+ 		return res;
++	if (wpabuf_len(in_decrypted) == 0) {
++		wpabuf_free(in_decrypted);
++		return 1;
++	}
+ 
+ continue_req:
+ 	wpa_hexdump_buf(MSG_DEBUG, "EAP-PEAP: Decrypted Phase 2 EAP",
+diff --git a/src/eap_peer/eap_ttls.c b/src/eap_peer/eap_ttls.c
+index 642d179c6..3bf1e97e6 100644
+--- a/src/eap_peer/eap_ttls.c
++++ b/src/eap_peer/eap_ttls.c
+@@ -1441,6 +1441,7 @@ static int eap_ttls_decrypt(struct eap_sm *sm, struct eap_ttls_data *data,
+ 
+ 	if ((in_data == NULL || wpabuf_len(in_data) == 0) &&
+ 	    data->phase2_start) {
++start:
+ 		return eap_ttls_phase2_start(sm, data, ret, identifier,
+ 					     out_data);
+ 	}
+@@ -1455,6 +1456,10 @@ static int eap_ttls_decrypt(struct eap_sm *sm, struct eap_ttls_data *data,
+ 	retval = eap_peer_tls_decrypt(sm, &data->ssl, in_data, &in_decrypted);
+ 	if (retval)
+ 		goto done;
++	if (wpabuf_len(in_decrypted) == 0) {
++		wpabuf_free(in_decrypted);
++		goto start;
++	}
+ 
+ continue_req:
+ 	data->phase2_start = 0;
+-- 
+2.31.1
