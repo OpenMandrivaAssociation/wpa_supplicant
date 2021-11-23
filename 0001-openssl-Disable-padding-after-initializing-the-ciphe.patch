@@ -1,0 +1,57 @@
+From e2e9adc3d9b6bb9c433ebb6404ee439b42e91746 Mon Sep 17 00:00:00 2001
+Message-Id: <e2e9adc3d9b6bb9c433ebb6404ee439b42e91746.1629375427.git.davide.caratti@gmail.com>
+From: Davide Caratti <davide.caratti@gmail.com>
+Date: Tue, 17 Aug 2021 10:58:53 +0200
+Subject: [PATCH] openssl: Disable padding after initializing the cipher suite
+
+according to OpenSSL documentation [1], EVP_CIPHER_CTX_set_padding()
+should be called after EVP_EncryptInit_ex(), EVP_DecryptInit_ex(), or
+EVP_CipherInit_ex(). Not doing this causes EVP_CIPHER_CTX_set_padding()
+to return false on OpenSSL-3.0.0, resulting in the impossibility to
+connect in many scenarios. Fix this changing the order of function calls
+where needed.
+
+[1] https://www.openssl.org/docs/man1.1.1/man3/EVP_CIPHER_CTX_set_padding.html
+
+Reported-by: Vladimir Benes <vbenes@redhat.com>
+Signed-off-by: Davide Caratti <davide.caratti@gmail.com>
+---
+ src/crypto/crypto_openssl.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/src/crypto/crypto_openssl.c b/src/crypto/crypto_openssl.c
+index 9411cb9cf..4b87702e4 100644
+--- a/src/crypto/crypto_openssl.c
++++ b/src/crypto/crypto_openssl.c
+@@ -248,8 +248,8 @@ int rc4_skip(const u8 *key, size_t keylen, size_t skip,
+ 
+ 	ctx = EVP_CIPHER_CTX_new();
+ 	if (!ctx ||
+-	    !EVP_CIPHER_CTX_set_padding(ctx, 0) ||
+ 	    !EVP_CipherInit_ex(ctx, EVP_rc4(), NULL, NULL, NULL, 1) ||
++	    !EVP_CIPHER_CTX_set_padding(ctx, 0) ||
+ 	    !EVP_CIPHER_CTX_set_key_length(ctx, keylen) ||
+ 	    !EVP_CipherInit_ex(ctx, NULL, NULL, key, NULL, 1))
+ 		goto out;
+@@ -709,8 +709,8 @@ struct crypto_cipher * crypto_cipher_init(enum crypto_cipher_alg alg,
+ 	}
+ 
+ 	if (!(ctx->enc = EVP_CIPHER_CTX_new()) ||
+-	    !EVP_CIPHER_CTX_set_padding(ctx->enc, 0) ||
+ 	    !EVP_EncryptInit_ex(ctx->enc, cipher, NULL, NULL, NULL) ||
++	    !EVP_CIPHER_CTX_set_padding(ctx->enc, 0) ||
+ 	    !EVP_CIPHER_CTX_set_key_length(ctx->enc, key_len) ||
+ 	    !EVP_EncryptInit_ex(ctx->enc, NULL, NULL, key, iv)) {
+ 		if (ctx->enc)
+@@ -720,8 +720,8 @@ struct crypto_cipher * crypto_cipher_init(enum crypto_cipher_alg alg,
+ 	}
+ 
+ 	if (!(ctx->dec = EVP_CIPHER_CTX_new()) ||
+-	    !EVP_CIPHER_CTX_set_padding(ctx->dec, 0) ||
+ 	    !EVP_DecryptInit_ex(ctx->dec, cipher, NULL, NULL, NULL) ||
++	    !EVP_CIPHER_CTX_set_padding(ctx->dec, 0) ||
+ 	    !EVP_CIPHER_CTX_set_key_length(ctx->dec, key_len) ||
+ 	    !EVP_DecryptInit_ex(ctx->dec, NULL, NULL, key, iv)) {
+ 		EVP_CIPHER_CTX_free(ctx->enc);
+-- 
+2.31.1
