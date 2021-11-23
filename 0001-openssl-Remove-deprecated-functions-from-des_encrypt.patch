@@ -1,0 +1,67 @@
+From d265dd2d965db3669d07caa69539beb8def0edb2 Mon Sep 17 00:00:00 2001
+Message-Id: <d265dd2d965db3669d07caa69539beb8def0edb2.1629375437.git.davide.caratti@gmail.com>
+From: Davide Caratti <davide.caratti@gmail.com>
+Date: Tue, 17 Aug 2021 10:58:54 +0200
+Subject: [PATCH] openssl: Remove deprecated functions from des_encrypt()
+
+NetworkManager-CI detected systematic failures on test scenarios using
+MSCHAPv2 when wpa_supplicant uses OpenSSL-3.0.0.
+The 'test_module_tests.py' script also fails, and the following log is
+shown:
+
+ 1627404013.761569: generate_nt_response failed
+ 1627404013.761582: ms_funcs: 1 error
+
+It seems that either DES_set_key() or DES_ecb_encrypt() changed their
+semantic, but it doesn't make sense to fix them since their use has been
+deprecated. Converting des_encrypt() to avoid use of deprecated
+functions proved to fix the problem, and removed a couple of build
+warnings at the same time.
+
+Reported-by: Vladimir Benes <vbenes@redhat.com>
+Signed-off-by: Davide Caratti <davide.caratti@gmail.com>
+---
+ src/crypto/crypto_openssl.c | 21 +++++++++++++++------
+ 1 file changed, 15 insertions(+), 6 deletions(-)
+
+diff --git a/src/crypto/crypto_openssl.c b/src/crypto/crypto_openssl.c
+index a4b1083bb..9411cb9cf 100644
+--- a/src/crypto/crypto_openssl.c
++++ b/src/crypto/crypto_openssl.c
+@@ -206,8 +206,8 @@ int md4_vector(size_t num_elem, const u8 *addr[], const size_t *len, u8 *mac)
+ int des_encrypt(const u8 *clear, const u8 *key, u8 *cypher)
+ {
+ 	u8 pkey[8], next, tmp;
+-	int i;
+-	DES_key_schedule ks;
++	int i, plen, ret = -1;
++	EVP_CIPHER_CTX *ctx;
+ 
+ 	/* Add parity bits to the key */
+ 	next = 0;
+@@ -218,10 +218,19 @@ int des_encrypt(const u8 *clear, const u8 *key, u8 *cypher)
+ 	}
+ 	pkey[i] = next | 1;
+ 
+-	DES_set_key((DES_cblock *) &pkey, &ks);
+-	DES_ecb_encrypt((DES_cblock *) clear, (DES_cblock *) cypher, &ks,
+-			DES_ENCRYPT);
+-	return 0;
++	ctx = EVP_CIPHER_CTX_new();
++	if (ctx &&
++	    EVP_EncryptInit_ex(ctx, EVP_des_ecb(), NULL, pkey, NULL) == 1 &&
++	    EVP_CIPHER_CTX_set_padding(ctx, 0) == 1 &&
++	    EVP_EncryptUpdate(ctx, cypher, &plen, clear, 8) == 1 &&
++	    EVP_EncryptFinal_ex(ctx, &cypher[plen], &plen) == 1)
++		ret = 0;
++	else
++		wpa_printf(MSG_ERROR, "OpenSSL: DES encrypt failed");
++
++	if (ctx)
++		EVP_CIPHER_CTX_free(ctx);
++	return ret;
+ }
+ 
+ 
+-- 
+2.31.1
