@@ -1,6 +1,3 @@
-#define _disable_lto 1
-#define _disable_ld_no_undefined 1
-
 Summary:	Linux WPA Supplicant (IEEE 802.1X, WPA, WPA2, RSN, IEEE 802.11i)
 Name:		wpa_supplicant
 Version:	2.10
@@ -27,8 +24,8 @@ Patch7:	wpa_supplicant-2.10-omv-defconfig.patch
 Patch8:	wpa_supplicant-2.10-allow-legacy-renegotiation.patch
 
 BuildRequires:	pkgconfig(dbus-1)
-# BuildRequires:	pkgconfig(gnutls) >= 3.0
-# BuildRequires:	pkgconfig(libpcsclite)
+BuildRequires:	pkgconfig(gnutls) >= 3.0
+BuildRequires:	pkgconfig(libpcsclite)
 BuildRequires:	doxygen
 BuildRequires:	pkgconfig(libnl-3.0)
 BuildRequires:	pkgconfig(readline)
