@@ -1,39 +1,42 @@
-%define _disable_lto 1
-%define _disable_ld_no_undefined 1
+#define _disable_lto 1
+#define _disable_ld_no_undefined 1
 
 Summary:	Linux WPA Supplicant (IEEE 802.1X, WPA, WPA2, RSN, IEEE 802.11i)
 Name:		wpa_supplicant
-Version:	2.8
-Release:	2
+Version:	2.10
+Release:	1
 # wpa_supplicant itself is dual-licensed under GPLv2 and BSD license, but as we
 # link against GPL libraries, we must use GPLv2 license
-License:	GPLv2
+License:	BSD
 Group:		Communications
-URL:		http://hostap.epitest.fi/wpa_supplicant/
-Source0:	http://hostap.epitest.fi/releases/wpa_supplicant-%{version}.tar.gz
+URL:		https://w1.fi
+Source0:	https://w1.fi/releases/wpa_supplicant-%{version}.tar.gz
 Source7:	%{name}.tmpfiles
 # works around busted drivers
 Patch0: wpa_supplicant-assoc-timeout.patch
 # ensures that debug output gets flushed immediately to help diagnose driver
 # bugs, not suitable for upstream
-Patch1: wpa_supplicant-flush-debug-output.patch
+Patch1: wpa_supplicant-2.10-flush-debug-output.patch
 # quiet an annoying and frequent syslog message
 Patch3: wpa_supplicant-quiet-scan-results-message.patch
 # distro specific customization for Qt4 build tools, not suitable for upstream
-Patch6: wpa_supplicant-gui-qt4.patch
+Patch6:	wpa_supplicant-2.10-gui-qt4.patch
 # distro specific customization and not suitable for upstream,
-Patch7:		wpa_supplicant-2.2-omv-defconfig.patch
-
+Patch7:	wpa_supplicant-2.10-omv-defconfig.patch
+# (fedora)
+Patch8:	wpa_supplicant-2.10-allow-legacy-renegotiation.patch
 
 BuildRequires:	pkgconfig(dbus-1)
-BuildRequires:	pkgconfig(gnutls) >= 3.0
-BuildRequires:	pkgconfig(libpcsclite)
+# BuildRequires:	pkgconfig(gnutls) >= 3.0
+# BuildRequires:	pkgconfig(libpcsclite)
 BuildRequires:	doxygen
 BuildRequires:	pkgconfig(libnl-3.0)
-BuildRequires:	readline-devel
+BuildRequires:	pkgconfig(readline)
 BuildRequires:	pkgconfig(openssl)
 BuildRequires:	systemd-macros >= 229
+
 Requires:	systemd >= 218
+
 Obsoletes:	wpa_supplicant-gui < 2.4
 
 %description

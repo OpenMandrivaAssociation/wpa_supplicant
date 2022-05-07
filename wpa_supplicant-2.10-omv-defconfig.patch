@@ -1,9 +1,7 @@
-diff --git a/wpa_supplicant/defconfig b/wpa_supplicant/defconfig
-index 88cd790..632ffe8 100644
 --- a/wpa_supplicant/defconfig
 +++ b/wpa_supplicant/defconfig
 @@ -80,10 +80,10 @@ CONFIG_DRIVER_WIRED=y
- #CONFIG_DRIVER_MACSEC_LINUX=y
+ CONFIG_DRIVER_MACSEC_LINUX=y
  
  # Driver interface for the Broadcom RoboSwitch family
 -#CONFIG_DRIVER_ROBOSWITCH=y
@@ -15,7 +13,7 @@ index 88cd790..632ffe8 100644
  
  # Solaris libraries
  #LIBS += -lsocket -ldlpi -lnsl
-@@ -182,7 +182,7 @@ CONFIG_SMARTCARD=y
+@@ -195,7 +195,7 @@ CONFIG_SMARTCARD=y
  
  # PC/SC interface for smartcards (USIM, GSM SIM)
  # Enable this if EAP-SIM or EAP-AKA is included
@@ -24,7 +22,7 @@ index 88cd790..632ffe8 100644
  
  # Support HT overrides (disable HT/HT40, mask MCS rates, etc.)
  #CONFIG_HT_OVERRIDES=y
-@@ -209,7 +209,7 @@ CONFIG_CTRL_IFACE=y
+@@ -222,7 +222,7 @@ CONFIG_CTRL_IFACE=y
  # When building a wpa_cli binary for distribution, please note that these
  # libraries are licensed under GPL and as such, BSD license may not apply for
  # the resulting binary.
@@ -33,7 +31,7 @@ index 88cd790..632ffe8 100644
  
  # Include internal line edit mode in wpa_cli. This can be used as a replacement
  # for GNU Readline to provide limited command line editing and history support.
-@@ -406,7 +406,7 @@ CONFIG_DEBUG_SYSLOG=y
+@@ -415,7 +415,7 @@ CONFIG_DEBUG_SYSLOG=y
  
  # Enable mitigation against certain attacks against TKIP by delaying Michael
  # MIC error reports by a random amount of time between 0 and 60 seconds
@@ -42,3 +40,12 @@ index 88cd790..632ffe8 100644
  
  # Enable tracing code for developer debugging
  # This tracks use of memory allocations and other registrations and reports
+@@ -469,7 +469,7 @@ CONFIG_DEBUG_SYSLOG=y
+ # Should we attempt to use the getrandom(2) call that provides more reliable
+ # yet secure randomness source than /dev/random on Linux 3.17 and newer.
+ # Requires glibc 2.25 to build, falls back to /dev/random if unavailable.
+-#CONFIG_GETRANDOM=y
++CONFIG_GETRANDOM=y
+ 
+ # IEEE 802.11ac (Very High Throughput) support (mainly for AP mode)
+ CONFIG_IEEE80211AC=y
