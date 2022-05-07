@@ -1,0 +1,20 @@
+--- a/src/crypto/tls_openssl.c
++++ b/src/crypto/tls_openssl.c
+@@ -1037,6 +1037,17 @@ void * tls_init(const struct tls_config
+ 	SSL_CTX_set_options(ssl, SSL_OP_NO_SSLv2);
+ 	SSL_CTX_set_options(ssl, SSL_OP_NO_SSLv3);
+ 
++	/* Many enterprise PEAP server implementations (e.g. used in large
++	 corporations and universities) do not support RFC5746 secure
++	 renegotiation, and starting with OpenSSL 3.0,
++	 SSL_OP_LEGACY_SERVER_CONNECT is no longer set as part of SSL_OP_ALL.
++	 So until we implement a way to request SSL_OP_LEGACY_SERVER_CONNECT
++	 only in EAP peer mode, just set SSL_OP_LEGACY_SERVER_CONNECT
++	 globally. */
++
++	SSL_CTX_set_options(ssl, SSL_OP_LEGACY_SERVER_CONNECT);
++
++
+ #ifdef SSL_MODE_NO_AUTO_CHAIN
+ 	/* Number of deployed use cases assume the default OpenSSL behavior of
+ 	 * auto chaining the local certificate is in use. BoringSSL removed this

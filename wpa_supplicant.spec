@@ -9,8 +9,8 @@ Release:	2
 # link against GPL libraries, we must use GPLv2 license
 License:	GPLv2
 Group:		Communications
-URL:		http://hostap.epitest.fi/wpa_supplicant/
-Source0:	http://hostap.epitest.fi/releases/wpa_supplicant-%{version}.tar.gz
+URL:		https://w1.fi/wpa_supplicant/
+Source0:	https://w1.fi/releases/wpa_supplicant-%{version}.tar.gz
 Source7:	%{name}.tmpfiles
 # works around busted drivers
 Patch0: wpa_supplicant-assoc-timeout.patch
@@ -23,7 +23,8 @@ Patch3: wpa_supplicant-quiet-scan-results-message.patch
 Patch6: wpa_supplicant-gui-qt4.patch
 # distro specific customization and not suitable for upstream,
 Patch7:		wpa_supplicant-2.2-omv-defconfig.patch
-
+# (fedora=
+Patch8:	wpa_supplicant-2.8-allow-legacy-renegotiation.patch
 
 BuildRequires:	pkgconfig(dbus-1)
 BuildRequires:	pkgconfig(gnutls) >= 3.0
