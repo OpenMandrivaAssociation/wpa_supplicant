@@ -1,7 +1,7 @@
 Summary:	Linux WPA Supplicant (IEEE 802.1X, WPA, WPA2, RSN, IEEE 802.11i)
 Name:		wpa_supplicant
 Version:	2.10
-Release:	2
+Release:	3
 # wpa_supplicant itself is dual-licensed under GPLv2 and BSD license, but as we
 # link against GPL libraries, we must use GPLv2 license
 License:	BSD
@@ -10,18 +10,26 @@ URL:		https://w1.fi
 Source0:	https://w1.fi/releases/wpa_supplicant-%{version}.tar.gz
 Source7:	%{name}.tmpfiles
 # works around busted drivers
-Patch0: wpa_supplicant-assoc-timeout.patch
+Patch0:		wpa_supplicant-assoc-timeout.patch
 # ensures that debug output gets flushed immediately to help diagnose driver
 # bugs, not suitable for upstream
-Patch1: wpa_supplicant-2.10-flush-debug-output.patch
+Patch1:		wpa_supplicant-2.10-flush-debug-output.patch
 # quiet an annoying and frequent syslog message
-Patch3: wpa_supplicant-quiet-scan-results-message.patch
+Patch3:		wpa_supplicant-quiet-scan-results-message.patch
 # distro specific customization for Qt4 build tools, not suitable for upstream
-Patch6:	wpa_supplicant-2.10-gui-qt4.patch
+Patch6:		wpa_supplicant-2.10-gui-qt4.patch
 # distro specific customization and not suitable for upstream,
-Patch7:	wpa_supplicant-2.10-omv-defconfig.patch
+Patch7:		wpa_supplicant-2.10-omv-defconfig.patch
 # (fedora)
-Patch8:	wpa_supplicant-2.10-allow-legacy-renegotiation.patch
+Patch8:		wpa_supplicant-2.10-allow-legacy-renegotiation.patch
+
+# (tpg) patches from Archlinux
+Patch9:		https://raw.githubusercontent.com/archlinux/svntogit-packages/packages/wpa_supplicant/trunk/wpa_supplicant_tls.patch
+Patch10:	https://raw.githubusercontent.com/archlinux/svntogit-packages/packages/wpa_supplicant/trunk/wpa_supplicant_dbus_service_syslog.patch
+Patch11:	https://raw.githubusercontent.com/archlinux/svntogit-packages/packages/wpa_supplicant/trunk/wpa_supplicant_service_ignore-on-isolate.patch
+Patch12:	https://raw.githubusercontent.com/archlinux/svntogit-packages/packages/wpa_supplicant/trunk/lower_security_level_for_tls_1.patch
+Patch13:	https://raw.githubusercontent.com/archlinux/svntogit-packages/packages/wpa_supplicant/trunk/0001-nl80211-add-extra-ies-only-if-allowed-by-driver.patch
+Patch14:	https://raw.githubusercontent.com/archlinux/svntogit-packages/packages/wpa_supplicant/trunk/0002-AP-guard-FT-SAE-code-with-CONFIG_IEEE80211R_AP.patch
 
 BuildRequires:	pkgconfig(dbus-1)
 BuildRequires:	pkgconfig(gnutls) >= 3.0
@@ -31,9 +39,7 @@ BuildRequires:	pkgconfig(libnl-3.0)
 BuildRequires:	pkgconfig(readline)
 BuildRequires:	pkgconfig(openssl)
 BuildRequires:	systemd-macros >= 229
-
-Requires:	systemd >= 218
-
+%systemd_requires
 Obsoletes:	wpa_supplicant-gui < 2.4
 
 %description
@@ -122,6 +128,12 @@ install -m 644 doc/docbook/*.5 %{buildroot}%{_mandir}/man5
 
 cd -
 
+%post
+%systemd_post wpa_supplicant.service
+
+%preun
+%systemd_preun wpa_supplicant.service
+
 %files
 %doc wpa_supplicant/README wpa_supplicant/eap_testing.txt wpa_supplicant/todo.txt
 %doc wpa_supplicant/README-WPS
@@ -138,5 +150,5 @@ cd -
 %{_sbindir}/eapol_test
 %{_sysconfdir}/dbus-1/system.d/wpa_supplicant.conf
 %{_datadir}/dbus-1/system-services/fi.w1.wpa_supplicant1.service
-%{_mandir}/man8/*
-%{_mandir}/man5/*
+%doc %{_mandir}/man8/*
+%doc %{_mandir}/man5/*
