@@ -27,7 +27,7 @@ Patch8:		wpa_supplicant-2.10-allow-legacy-renegotiation.patch
 Patch9:		https://raw.githubusercontent.com/archlinux/svntogit-packages/packages/wpa_supplicant/trunk/wpa_supplicant_tls.patch
 Patch10:	https://raw.githubusercontent.com/archlinux/svntogit-packages/packages/wpa_supplicant/trunk/wpa_supplicant_dbus_service_syslog.patch
 Patch11:	https://raw.githubusercontent.com/archlinux/svntogit-packages/packages/wpa_supplicant/trunk/wpa_supplicant_service_ignore-on-isolate.patch
-Patch12:	https://raw.githubusercontent.com/archlinux/svntogit-packages/packages/wpa_supplicant/trunk/lower_security_level_for_tls_1.patch
+#Patch12:	https://raw.githubusercontent.com/archlinux/svntogit-packages/packages/wpa_supplicant/trunk/lower_security_level_for_tls_1.patch
 Patch13:	https://raw.githubusercontent.com/archlinux/svntogit-packages/packages/wpa_supplicant/trunk/0001-nl80211-add-extra-ies-only-if-allowed-by-driver.patch
 Patch14:	https://raw.githubusercontent.com/archlinux/svntogit-packages/packages/wpa_supplicant/trunk/0002-AP-guard-FT-SAE-code-with-CONFIG_IEEE80211R_AP.patch
 
