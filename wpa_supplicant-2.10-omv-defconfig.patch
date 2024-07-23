@@ -1,6 +1,6 @@
 diff -uraN wpa_supplicant-2.11/wpa_supplicant/defconfig omv-wpa_supplicant-2.11/wpa_supplicant/defconfig
 --- wpa_supplicant-2.11/wpa_supplicant/defconfig	2024-07-20 20:04:37.000000000 +0200
-+++ omv-wpa_supplicant-2.11/wpa_supplicant/defconfig	2024-07-23 16:11:39.409409764 +0200
++++ omv-wpa_supplicant-2.11/wpa_supplicant/defconfig	2024-07-23 16:30:28.271631732 +0200
 @@ -32,7 +32,7 @@
  CONFIG_DRIVER_NL80211=y
  
@@ -15,7 +15,7 @@ diff -uraN wpa_supplicant-2.11/wpa_supplicant/defconfig omv-wpa_supplicant-2.11/
  
  # Driver interface for MACsec capable Qualcomm Atheros drivers
 -#CONFIG_DRIVER_MACSEC_QCA=y
-#-CONFIG_DRIVER_MACSEC_QCA=y
++#-CONFIG_DRIVER_MACSEC_QCA=y
  
  # Driver interface for Linux MACsec drivers
  CONFIG_DRIVER_MACSEC_LINUX=y
