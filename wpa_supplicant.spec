@@ -19,7 +19,7 @@ Patch3:		wpa_supplicant-quiet-scan-results-message.patch
 # distro specific customization for Qt4 build tools, not suitable for upstream
 Patch6:		wpa_supplicant-2.10-gui-qt4.patch
 # distro specific customization and not suitable for upstream,
-Patch7:		wpa_supplicant-2.10-omv-defconfig.patch
+#Patch7:		wpa_supplicant-2.10-omv-defconfig.patch
 # (fedora)
 Patch8:		wpa_supplicant-2.10-allow-legacy-renegotiation.patch
 
