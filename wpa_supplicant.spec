@@ -1,7 +1,7 @@
 Summary:	Linux WPA Supplicant (IEEE 802.1X, WPA, WPA2, RSN, IEEE 802.11i)
 Name:		wpa_supplicant
-Version:	2.10
-Release:	4
+Version:	2.11
+Release:	1
 # wpa_supplicant itself is dual-licensed under GPLv2 and BSD license, but as we
 # link against GPL libraries, we must use GPLv2 license
 License:	BSD
@@ -24,12 +24,10 @@ Patch7:		wpa_supplicant-2.10-omv-defconfig.patch
 Patch8:		wpa_supplicant-2.10-allow-legacy-renegotiation.patch
 
 # (tpg) patches from Archlinux
-Patch9:		https://raw.githubusercontent.com/archlinux/svntogit-packages/packages/wpa_supplicant/trunk/wpa_supplicant_tls.patch
+Patch9:	https://raw.githubusercontent.com/archlinux/svntogit-packages/packages/wpa_supplicant/trunk/wpa_supplicant_tls.patch
 Patch10:	https://raw.githubusercontent.com/archlinux/svntogit-packages/packages/wpa_supplicant/trunk/wpa_supplicant_dbus_service_syslog.patch
 Patch11:	https://raw.githubusercontent.com/archlinux/svntogit-packages/packages/wpa_supplicant/trunk/wpa_supplicant_service_ignore-on-isolate.patch
-Patch12:	https://raw.githubusercontent.com/archlinux/svntogit-packages/packages/wpa_supplicant/trunk/lower_security_level_for_tls_1.patch
-Patch13:	https://raw.githubusercontent.com/archlinux/svntogit-packages/packages/wpa_supplicant/trunk/0001-nl80211-add-extra-ies-only-if-allowed-by-driver.patch
-Patch14:	https://raw.githubusercontent.com/archlinux/svntogit-packages/packages/wpa_supplicant/trunk/0002-AP-guard-FT-SAE-code-with-CONFIG_IEEE80211R_AP.patch
+Patch12:	https://raw.githubusercontent.com/archlinux/svntogit-packages/packages/wpa_supplicant/trunk/0001-nl80211-add-extra-ies-only-if-allowed-by-driver.patch
 
 BuildRequires:	pkgconfig(dbus-1)
 BuildRequires:	pkgconfig(gnutls) >= 3.0
