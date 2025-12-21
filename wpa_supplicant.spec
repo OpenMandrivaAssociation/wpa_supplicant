@@ -29,6 +29,7 @@ Patch10:	https://raw.githubusercontent.com/archlinux/svntogit-packages/packages/
 Patch11:	https://raw.githubusercontent.com/archlinux/svntogit-packages/packages/wpa_supplicant/trunk/wpa_supplicant_service_ignore-on-isolate.patch
 Patch12:	https://raw.githubusercontent.com/archlinux/svntogit-packages/packages/wpa_supplicant/trunk/0001-nl80211-add-extra-ies-only-if-allowed-by-driver.patch
 
+BuildRequires:	make
 BuildRequires:	pkgconfig(dbus-1)
 BuildRequires:	pkgconfig(gnutls) >= 3.0
 BuildRequires:	pkgconfig(libpcsclite)
